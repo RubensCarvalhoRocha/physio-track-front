@@ -1,0 +1,104 @@
+<div class="w-full p-8 bg-white border rounded shadow">
+    <h2 class="text-3xl font-semibold mb-6">
+        {{ isEditMode ? "Editar Pessoa" : "Nova Pessoa" }}
+    </h2>
+
+    <form [formGroup]="pessoaForm" (ngSubmit)="salvar()" class="space-y-6">
+        <!-- Nome -->
+        <div>
+            <label class="block text-base font-medium mb-2">Nome</label>
+            <input
+                type="text"
+                formControlName="nome"
+                class="border rounded px-4 py-2 w-full text-lg"
+            />
+            <div
+                *ngIf="
+                    pessoaForm.get('nome')?.invalid &&
+                    pessoaForm.get('nome')?.touched
+                "
+                class="text-red-500 text-sm mt-1"
+            >
+                Nome é obrigatório.
+            </div>
+        </div>
+
+        <!-- CPF -->
+        <div>
+            <label class="block text-base font-medium mb-2">CPF</label>
+            <input
+                type="text"
+                formControlName="cpf"
+                class="border rounded px-4 py-2 w-full text-lg"
+            />
+        </div>
+
+        <!-- Telefone -->
+        <div>
+            <label class="block text-base font-medium mb-2">Telefone</label>
+            <input
+                type="text"
+                formControlName="telefone"
+                class="border rounded px-4 py-2 w-full text-lg"
+            />
+        </div>
+
+        <!-- Endereço -->
+        <div formGroupName="endereco">
+            <h3 class="text-xl font-semibold mb-2">Endereço</h3>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label>Rua</label>
+                    <input
+                        type="text"
+                        formControlName="rua"
+                        class="border rounded px-3 py-2 w-full"
+                    />
+                </div>
+
+                <div>
+                    <label>CEP</label>
+                    <input
+                        type="text"
+                        formControlName="cep"
+                        class="border rounded px-3 py-2 w-full"
+                    />
+                </div>
+
+                <div>
+                    <label>Cidade</label>
+                    <input
+                        type="text"
+                        formControlName="cidade"
+                        class="border rounded px-3 py-2 w-full"
+                    />
+                </div>
+
+                <div>
+                    <label>Estado (ID)</label>
+                    <input
+                        type="number"
+                        formControlName="estadoId"
+                        class="border rounded px-3 py-2 w-full"
+                    />
+                </div>
+            </div>
+        </div>
+
+        <!-- Botões -->
+        <div class="flex justify-end gap-4 pt-6 border-t">
+            <button type="button" mat-stroked-button (click)="cancelar()">
+                Cancelar
+            </button>
+            <button
+                type="submit"
+                mat-flat-button
+                color="primary"
+                [disabled]="pessoaForm.invalid"
+            >
+                {{ isEditMode ? "Atualizar" : "Salvar" }}
+            </button>
+        </div>
+    </form>
+</div>

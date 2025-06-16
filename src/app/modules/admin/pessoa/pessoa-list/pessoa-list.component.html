@@ -1,0 +1,139 @@
+<div class="flex flex-col flex-auto w-full">
+    <div class="flex flex-wrap w-full max-w-screen-xl mx-auto p-3 md:p-4">
+        <!-- Título -->
+        <div
+            class="flex items-center justify-between flex-wrap gap-4 w-full mb-6"
+        >
+            <h2 class="text-3xl font-semibold tracking-tight leading-8 m-0">
+                Pessoas
+            </h2>
+        </div>
+
+        <!-- Campo de busca + Botão Novo lado a lado -->
+        <div
+            class="flex items-center justify-between w-full mb-6 gap-4 flex-wrap"
+        >
+            <!-- Campo de busca -->
+            <div class="flex-grow">
+                <input
+                    class="bg-white border border-gray-300 rounded-md w-full p-3 shadow-sm"
+                    matInput
+                    autocomplete="off"
+                    placeholder="Buscar por Nome"
+                    #searchField
+                    (keyup)="filtrarPessoas(searchField.value)"
+                />
+            </div>
+
+            <!-- Botão Nova Pessoa -->
+            <div>
+                <button
+                    mat-raised-button
+                    color="primary"
+                    [routerLink]="['nova']"
+                >
+                    Nova Pessoa
+                </button>
+            </div>
+        </div>
+
+        <!-- Tabela -->
+        <div class="overflow-x-auto w-full">
+            <table
+                mat-table
+                matSort
+                [dataSource]="pessoasDataSource"
+                class="min-w-full table-auto shadow-md border rounded-md bg-white"
+            >
+                <!-- ID -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        ID
+                    </th>
+                    <td mat-cell *matCellDef="let pessoa">{{ pessoa.id }}</td>
+                </ng-container>
+
+                <!-- Nome -->
+                <ng-container matColumnDef="nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Nome
+                    </th>
+                    <td mat-cell *matCellDef="let pessoa">{{ pessoa.nome }}</td>
+                </ng-container>
+
+                <!-- CPF -->
+                <ng-container matColumnDef="cpf">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        CPF
+                    </th>
+                    <td mat-cell *matCellDef="let pessoa">{{ pessoa.cpf }}</td>
+                </ng-container>
+
+                <!-- Telefone -->
+                <ng-container matColumnDef="telefone">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Telefone
+                    </th>
+                    <td mat-cell *matCellDef="let pessoa">
+                        {{ pessoa.telefone }}
+                    </td>
+                </ng-container>
+
+                <!-- Ações -->
+                <ng-container matColumnDef="acoes">
+                    <th mat-header-cell *matHeaderCellDef>Ações</th>
+                    <td mat-cell *matCellDef="let pessoa">
+                        <button
+                            mat-flat-button
+                            color="primary"
+                            [routerLink]="[pessoa.id]"
+                            [matTooltip]="'Editar pessoa'"
+                        >
+                            <mat-icon svgIcon="mat_outline:edit"></mat-icon>
+                        </button>
+                        <button
+                            mat-flat-button
+                            color="warn"
+                            (click)="excluirPessoa(pessoa.id)"
+                            [matTooltip]="'Excluir pessoa'"
+                        >
+                            <mat-icon
+                                svgIcon="mat_outline:delete_outline"
+                            ></mat-icon>
+                        </button>
+                        <button
+                            mat-flat-button
+                            color="primary"
+                            (click)="cadastrarAtendimento(pessoa.id)"
+                            [matTooltip]="'Realizar Atendimento'"
+                        >
+                            <mat-icon svgIcon="feather:clipboard"></mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="pessoasTableColumns"></tr>
+                <tr
+                    mat-row
+                    *matRowDef="let row; columns: pessoasTableColumns"
+                ></tr>
+            </table>
+        </div>
+
+        <!-- Nenhuma pessoa encontrada -->
+        <div
+            class="p-5 bg-white border border-t-0 border-l-0 border-r-0 border-b-1 w-full"
+            *ngIf="!pessoasDataSource?.data?.length"
+        >
+            <label>Nenhuma pessoa encontrada para esse filtro.</label>
+        </div>
+
+        <!-- Paginador -->
+        <mat-paginator
+            class="w-full mt-6"
+            [pageSizeOptions]="[10, 25, 50, 100]"
+            showFirstLastButtons
+            aria-label="Selecione a página"
+        ></mat-paginator>
+    </div>
+</div>
