@@ -5,6 +5,7 @@ Este é o projeto **frontend** desenvolvido em **Angular** para o sistema **Phys
 ## ✨ Funcionalidades
 
 - 📋 **Gestão de Atendimentos:** cadastro, edição e visualização de atendimentos
+- 📋 **Gestão de Pacientes:** cadastro, edição e visualização de pacientes
 
 ## 🚀 Tecnologias Utilizadas
 
