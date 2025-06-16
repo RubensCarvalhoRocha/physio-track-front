@@ -1,0 +1,73 @@
+<div class="w-full p-8 bg-white border rounded shadow">
+    <h2 class="text-3xl font-semibold mb-6">
+        {{ isEditMode ? "Editar Atendimento" : "Novo Atendimento" }}
+    </h2>
+
+    <form [formGroup]="atendimentoForm" (ngSubmit)="salvar()" class="space-y-6">
+        <!-- Tipo de Atendimento -->
+        <div>
+            <label class="block text-base font-medium mb-2"
+                >Tipo de Atendimento</label
+            >
+            <input
+                type="text"
+                formControlName="tipoAtendimento"
+                class="border rounded px-4 py-2 w-full text-lg"
+            />
+            <div
+                *ngIf="
+                    atendimentoForm.get('tipoAtendimento')?.invalid &&
+                    atendimentoForm.get('tipoAtendimento')?.touched
+                "
+                class="text-red-500 text-sm mt-1"
+            >
+                Tipo de atendimento é obrigatório.
+            </div>
+        </div>
+
+        <!-- Data do Atendimento -->
+        <div>
+            <label class="block text-base font-medium mb-2"
+                >Data do Atendimento</label
+            >
+            <input
+                type="datetime-local"
+                formControlName="dataAtendimento"
+                class="border rounded px-4 py-2 w-full text-lg"
+            />
+            <div
+                *ngIf="
+                    atendimentoForm.get('dataAtendimento')?.invalid &&
+                    atendimentoForm.get('dataAtendimento')?.touched
+                "
+                class="text-red-500 text-sm mt-1"
+            >
+                Data do atendimento é obrigatória.
+            </div>
+        </div>
+
+        <!-- Descrição -->
+        <div>
+            <label class="block text-base font-medium mb-2">Descrição</label>
+            <textarea
+                formControlName="descricao"
+                class="border rounded px-4 py-2 w-full text-lg min-h-[100px]"
+            ></textarea>
+        </div>
+
+        <!-- Botões -->
+        <div class="flex justify-end gap-4 pt-6 border-t">
+            <button type="button" mat-stroked-button (click)="cancelar()">
+                Cancelar
+            </button>
+            <button
+                type="submit"
+                mat-flat-button
+                color="primary"
+                [disabled]="atendimentoForm.invalid"
+            >
+                {{ isEditMode ? "Atualizar" : "Salvar" }}
+            </button>
+        </div>
+    </form>
+</div>
