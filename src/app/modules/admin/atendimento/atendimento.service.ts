@@ -72,4 +72,13 @@ export class AtendimentoService {
             dto
         );
     }
+
+    gerarRelatorio(atendimentoId: number): Observable<Blob> {
+        return this._httpClient.get(
+            `${environment.api}/api/avaliacao/report/${atendimentoId}`,
+            {
+                responseType: 'blob',
+            }
+        );
+    }
 }

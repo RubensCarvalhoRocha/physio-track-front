@@ -5,6 +5,7 @@ import { AtendimentoService } from '../atendimento.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
+import notyf from 'app/utils/utils';
 @Component({
     selector: 'app-atendimento-list',
     templateUrl: './atendimento-list.component.html',
@@ -66,5 +67,37 @@ export class AtendimentoListComponent implements OnInit {
         ]);
     }
 
-    gerarRelatorio(id: number): void {}
+    gerarRelatorio(atendimentoId: number): void {
+        this._atendimentoService.gerarRelatorio(atendimentoId).subscribe({
+            next: (pdfBlob) => {
+                const blob = new Blob([pdfBlob], { type: 'application/pdf' });
+                const url = window.URL.createObjectURL(blob);
+                window.open(url);
+
+                notyf.success('Relatório gerado com sucesso!');
+                this._router.navigate(['/atendimentos']);
+            },
+            error: async (err) => {
+                console.log(err);
+
+                let mensagem = 'Erro ao gerar relatório.';
+
+                // Se o erro for Blob, tenta extrair texto e parsear como JSON
+                if (
+                    err?.error instanceof Blob &&
+                    err.error.type === 'application/json'
+                ) {
+                    const text = await err.error.text();
+                    try {
+                        const json = JSON.parse(text);
+                        mensagem = json?.message || mensagem;
+                    } catch (e) {
+                        // Não era JSON válido
+                    }
+                }
+
+                notyf.error(mensagem);
+            },
+        });
+    }
 }

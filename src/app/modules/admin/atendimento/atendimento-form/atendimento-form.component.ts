@@ -40,7 +40,21 @@ export class AtendimentoFormComponent implements OnInit {
                 this._atendimentoService
                     .obterAtendimento(idAtendimento)
                     .subscribe((atendimento) => {
-                        this.atendimentoForm.patchValue(atendimento);
+                        this.atendimento = atendimento;
+
+                        // Converter data para o formato aceito pelo input datetime-local
+                        const dataAtendimento = atendimento.dataAtendimento
+                            ? new Date(atendimento.dataAtendimento)
+                                  .toISOString()
+                                  .slice(0, 16) // 'yyyy-MM-ddTHH:mm'
+                            : null;
+
+                        this.atendimentoForm.patchValue({
+                            pacienteId: atendimento.pacienteId,
+                            tipoAtendimento: atendimento.tipoAtendimento,
+                            dataAtendimento,
+                            descricao: atendimento.descricao,
+                        });
                     });
             }
         });
@@ -58,7 +72,7 @@ export class AtendimentoFormComponent implements OnInit {
                 .subscribe({
                     next: () => {
                         notyf.success('Atendimento atualizado com sucesso!');
-                        this._router.navigate(['/atendimentos']);
+                        this._router.navigate(['/atendimento']);
                     },
                     error: () => {
                         notyf.error('Erro ao atualizar o atendimento.');
@@ -70,7 +84,7 @@ export class AtendimentoFormComponent implements OnInit {
                 .subscribe({
                     next: () => {
                         notyf.success('Atendimento cadastrado com sucesso!');
-                        this._router.navigate(['/atendimentos']);
+                        this._router.navigate(['/atendimento']);
                     },
                     error: () => {
                         notyf.error('Erro ao cadastrar o atendimento.');

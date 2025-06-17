@@ -29,7 +29,7 @@ export class PessoaService {
     }
 
     obterPessoa(id: string): Observable<Pessoa> {
-        return this._httpClient.get<Pessoa>(`${environment.api}/pessoa/${id}`);
+        return this._httpClient.get<Pessoa>(`${environment.api}/api/pessoa/${id}`);
     }
 
     cadastrarPessoa(pessoa: Pessoa): Observable<Pessoa> {

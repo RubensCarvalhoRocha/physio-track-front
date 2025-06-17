@@ -16,6 +16,13 @@ export const atendimentoRoutes: Route[] = [
         },
     },
     {
+        path: ':idAtendimento',
+        component: AtendimentoFormComponent,
+        resolve: {
+            AtendimentoResolver,
+        },
+    },
+    {
         path: ':idAtendimento/:idPaciente',
         component: AtendimentoFormComponent,
         resolve: {
