@@ -50,4 +50,8 @@ export class PessoaListComponent implements OnInit {
     cadastrarAtendimento(pessoaId: number): void {
         this._router.navigate(['/atendimento', 'novo', pessoaId]);
     }
+
+    cadastrarAvaliacao(pessoaId: number): void {
+        this._router.navigate(['/avaliacao', 'novo', pessoaId]);
+    }
 }

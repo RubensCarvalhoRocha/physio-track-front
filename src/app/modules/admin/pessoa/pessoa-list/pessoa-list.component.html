@@ -91,6 +91,25 @@
                         >
                             <mat-icon svgIcon="mat_outline:edit"></mat-icon>
                         </button>
+
+                        <button
+                            mat-flat-button
+                            color="primary"
+                            (click)="cadastrarAtendimento(pessoa.id)"
+                            [matTooltip]="'Realizar Atendimento'"
+                        >
+                            <mat-icon svgIcon="feather:clipboard"></mat-icon>
+                        </button>
+                        <button
+                            mat-flat-button
+                            color="primary"
+                            (click)="cadastrarAvaliacao(pessoa.id)"
+                            [matTooltip]="'Realizar Avaliação'"
+                        >
+                            <mat-icon
+                                svgIcon="heroicons_outline:presentation-chart-line"
+                            ></mat-icon>
+                        </button>
                         <button
                             mat-flat-button
                             color="warn"
@@ -100,14 +119,6 @@
                             <mat-icon
                                 svgIcon="mat_outline:delete_outline"
                             ></mat-icon>
-                        </button>
-                        <button
-                            mat-flat-button
-                            color="primary"
-                            (click)="cadastrarAtendimento(pessoa.id)"
-                            [matTooltip]="'Realizar Atendimento'"
-                        >
-                            <mat-icon svgIcon="feather:clipboard"></mat-icon>
                         </button>
                     </td>
                 </ng-container>
