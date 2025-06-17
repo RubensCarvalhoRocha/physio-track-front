@@ -31,8 +31,8 @@ export class AtendimentoFormComponent implements OnInit {
 
             this.atendimentoForm = this.fb.group({
                 pacienteId: [idPaciente, Validators.required],
-                tipoAtendimento: ['', Validators.required],
-                dataAtendimento: [null, Validators.required],
+                tipoAtendimento: [''],
+                dataAtendimento: [null],
                 descricao: [''],
             });
 
@@ -42,11 +42,15 @@ export class AtendimentoFormComponent implements OnInit {
                     .subscribe((atendimento) => {
                         this.atendimento = atendimento;
 
-                        // Converter data para o formato aceito pelo input datetime-local
                         const dataAtendimento = atendimento.dataAtendimento
-                            ? new Date(atendimento.dataAtendimento)
+                            ? new Date(
+                                  new Date(
+                                      atendimento.dataAtendimento
+                                  ).getTime() -
+                                      new Date().getTimezoneOffset() * 60000
+                              )
                                   .toISOString()
-                                  .slice(0, 16) // 'yyyy-MM-ddTHH:mm'
+                                  .slice(0, 16)
                             : null;
 
                         this.atendimentoForm.patchValue({
