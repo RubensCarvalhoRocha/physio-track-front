@@ -1,3 +1,4 @@
+import { AtendimentoCompleto } from 'app/models/atendimentoCompleto';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { environment } from 'environments/environment';
 import { Atendimento } from 'app/models/atendimento';
@@ -8,17 +9,17 @@ import { Injectable } from '@angular/core';
     providedIn: 'root',
 })
 export class AtendimentoService {
-    private _atendimentos = new BehaviorSubject<Atendimento[]>([]);
+    private _atendimentos = new BehaviorSubject<AtendimentoCompleto[]>([]);
 
     constructor(private _httpClient: HttpClient) {}
 
-    get atendimentos$(): Observable<Atendimento[]> {
+    get atendimentos$(): Observable<AtendimentoCompleto[]> {
         return this._atendimentos.asObservable();
     }
 
-    listarAtendimentos(): Observable<Atendimento[]> {
+    listarAtendimentos(): Observable<AtendimentoCompleto[]> {
         return this._httpClient
-            .get<Atendimento[]>(`${environment.api}/api/atendimento`)
+            .get<AtendimentoCompleto[]>(`${environment.api}/api/atendimento`)
             .pipe(
                 tap((response) => {
                     this._atendimentos.next(response);
