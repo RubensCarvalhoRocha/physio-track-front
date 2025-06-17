@@ -28,81 +28,56 @@ export class PessoaFormComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
+        this._pessoaService.listarEstados().subscribe((estados) => {
+            this.estados = estados;
+
+            // Carrega cidades se houver estado preenchido no modo de edição
+            const estadoId = this.pessoa?.endereco?.estadoId;
+            const estado = estados.find((e) => e.id === estadoId);
+            if (estado) {
+                this.carregarCidades(estado.sigla);
+            }
+        });
+
         this._activatedRouter.data.subscribe((data) => {
             this.pessoa = data['PessoaResolver'];
             this.isEditMode = !!(this.pessoa && this.pessoa.id);
 
-            // Extrai valores normalizados para o form
-            const cidadeNome = this.pessoa?.endereco?.cidade?.nome || '';
-            const estadoId = this.pessoa?.endereco?.cidade?.estado?.id || null;
+            this.pessoaForm = this.fb.group({
+                nome: [this.pessoa?.nome || '', Validators.required],
+                cpf: [this.pessoa?.cpf || ''],
+                telefone: [this.pessoa?.telefone || ''],
+                endereco: this.fb.group({
+                    rua: [this.pessoa?.endereco?.rua || ''],
+                    cep: [this.pessoa?.endereco?.cep || ''],
+                    cidade: [
+                        this.pessoa?.endereco?.cidade || '',
+                        Validators.required,
+                    ],
+                    estadoId: [
+                        this.pessoa?.endereco?.estadoId || null,
+                        Validators.required,
+                    ],
+                }),
+            });
 
-            // Lista os estados primeiro
-            this._pessoaService.listarEstados().subscribe((estados) => {
-                this.estados = estados;
-
-                // Se houver estado no modo de edição, carrega as cidades antes de montar o form
-                if (estadoId) {
-                    const estado = estados.find((e) => e.id === estadoId);
+            // Detecta mudança no estado para carregar cidades
+            this.pessoaForm
+                .get('endereco.estadoId')
+                ?.valueChanges.subscribe((estadoId) => {
+                    const estado = this.estados.find((e) => e.id === +estadoId);
                     if (estado?.sigla) {
-                        this._pessoaService
-                            .listarCidadesPorEstado(estado.sigla)
-                            .subscribe((cidades) => {
-                                this.cidades = cidades;
-
-                                // Agora sim, monta o formulário com cidades carregadas
-                                this.buildForm(estadoId, cidadeNome);
-                            });
-                        return;
+                        this.carregarCidades(estado.sigla);
+                        // Limpa cidade selecionada ao mudar o estado
+                        this.pessoaForm.get('endereco.cidade')?.setValue('');
                     }
-                }
-
-                // Caso não haja estadoId ou não seja edição, monta o formulário direto
-                this.buildForm(null, '');
-            });
+                });
         });
-    }
-
-    private buildForm(estadoId: number | null, cidadeNome: string): void {
-        this.pessoaForm = this.fb.group({
-            nome: [this.pessoa?.nome || '', Validators.required],
-            cpf: [this.pessoa?.cpf || ''],
-            telefone: [this.pessoa?.telefone || ''],
-            endereco: this.fb.group({
-                rua: [this.pessoa?.endereco?.rua || ''],
-                cep: [this.pessoa?.endereco?.cep || ''],
-                cidade: [cidadeNome, Validators.required],
-                estadoId: [estadoId, Validators.required],
-            }),
-        });
-
-        // Escuta alterações no estado para carregar novas cidades
-        this.pessoaForm
-            .get('endereco.estadoId')
-            ?.valueChanges.subscribe((novoEstadoId) => {
-                const estado = this.estados.find((e) => e.id === +novoEstadoId);
-                if (estado?.sigla) {
-                    this.carregarCidades(estado.sigla);
-                    this.pessoaForm.get('endereco.cidade')?.setValue('');
-                }
-            });
     }
 
     carregarCidades(uf: string): void {
         this._pessoaService.listarCidadesPorEstado(uf).subscribe((cidades) => {
             this.cidades = cidades;
-
-            const cidadeNome = this.pessoaForm?.get('endereco.cidade')?.value;
-            if (cidadeNome) {
-                const cidadeExiste = this.cidades.some(
-                    (c) => c.nome === cidadeNome
-                );
-                if (cidadeExiste) {
-                    // Reatribui o valor após carregar as opções
-                    this.pessoaForm
-                        .get('endereco.cidade')
-                        ?.setValue(cidadeNome);
-                }
-            }
         });
     }
 
