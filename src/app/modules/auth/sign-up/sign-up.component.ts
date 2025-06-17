@@ -13,6 +13,7 @@ import { Cidade } from 'app/models/cidade';
 import { Estado } from 'app/models/estado';
 import { PessoaService } from 'app/modules/admin/pessoa/pessoa.service';
 import notyf from 'app/utils/utils';
+import { validarCPF } from 'app/utils/validarCPF';
 
 @Component({
     selector: 'auth-sign-up',
@@ -130,5 +131,18 @@ export class AuthSignUpComponent implements OnInit {
         this._pessoaService.listarCidadesPorEstado(uf).subscribe((cidades) => {
             this.cidades = cidades;
         });
+    }
+
+    validarCPF(): void {
+        const cpfControl = this.signUpForm.get('pessoa.cpf');
+        const cpf = cpfControl?.value || '';
+
+        if (!validarCPF(cpf)) {
+            cpfControl?.setValue(null); // Limpa o campo
+            notyf.open({
+                type: 'warning',
+                message: 'CPF inválido.',
+            });
+        }
     }
 }

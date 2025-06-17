@@ -1,6 +1,4 @@
 export const environment = {
-    production: false,
-
-    api: 'http://localhost:8080',
+  production: true,
+  apiUrl: 'https://physio-track-api-405e86c92952.herokuapp.com'
 };
-
