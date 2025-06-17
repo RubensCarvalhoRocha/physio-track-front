@@ -51,4 +51,15 @@ export class PessoaService {
                 })
             );
     }
+
+    excluirPessoa(id: number): Observable<void> {
+        return this._httpClient
+            .delete<void>(`${environment.api}/api/pessoa/${id}`)
+            .pipe(
+                tap(() => {
+                    // Atualiza a lista após exclusão
+                    this.listarPessoas().subscribe();
+                })
+            );
+    }
 }
