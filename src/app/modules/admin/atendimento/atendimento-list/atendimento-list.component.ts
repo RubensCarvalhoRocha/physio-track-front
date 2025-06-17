@@ -56,4 +56,10 @@ export class AtendimentoListComponent implements OnInit {
     editarAtendimento(id: number) {
         this._router.navigate(['/atendimento', id]);
     }
+
+    cadastrarAvaliacao(pessoaId: number): void {
+        this._router.navigate(['/avaliacao', 'novo', pessoaId]);
+    }
+
+    gerarRelatorio(id: number): void {}
 }

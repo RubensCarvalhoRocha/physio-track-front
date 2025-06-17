@@ -45,7 +45,6 @@
                 [dataSource]="pessoasDataSource"
                 class="min-w-full table-auto shadow-md border rounded-md bg-white"
             >
-
                 <!-- Nome -->
                 <ng-container matColumnDef="nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -93,16 +92,7 @@
                         >
                             <mat-icon svgIcon="feather:clipboard"></mat-icon>
                         </button>
-                        <button
-                            mat-flat-button
-                            color="primary"
-                            (click)="cadastrarAvaliacao(pessoa.id)"
-                            [matTooltip]="'Realizar Avaliação'"
-                        >
-                            <mat-icon
-                                svgIcon="heroicons_outline:presentation-chart-line"
-                            ></mat-icon>
-                        </button>
+
                         <button
                             mat-flat-button
                             color="warn"

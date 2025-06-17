@@ -94,6 +94,26 @@
                         >
                             <mat-icon svgIcon="mat_outline:edit"></mat-icon>
                         </button>
+
+                        <button
+                            mat-flat-button
+                            color="primary"
+                            (click)="cadastrarAvaliacao(atendimento.pacienteId)"
+                            [matTooltip]="'Realizar Avaliação'"
+                        >
+                            <mat-icon
+                                svgIcon="heroicons_outline:presentation-chart-line"
+                            ></mat-icon>
+                        </button>
+
+                        <button
+                            mat-flat-button
+                            color="primary"
+                            (click)="gerarRelatorio(atendimento.id)"
+                            [matTooltip]="'Gerar Relatório'"
+                        >
+                            <mat-icon svgIcon="mat_outline:stacked_line_chart"></mat-icon>
+                        </button>
                     </td>
                 </ng-container>
 

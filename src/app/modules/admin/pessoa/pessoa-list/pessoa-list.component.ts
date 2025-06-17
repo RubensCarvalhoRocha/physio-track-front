@@ -52,10 +52,6 @@ export class PessoaListComponent implements OnInit {
         this._router.navigate(['/atendimento', 'novo', pessoaId]);
     }
 
-    cadastrarAvaliacao(pessoaId: number): void {
-        this._router.navigate(['/avaliacao', 'novo', pessoaId]);
-    }
-
     excluirPessoa(id: number): void {
         if (confirm('Tem certeza que deseja excluir esta pessoa?')) {
             this._pessoaService.excluirPessoa(id).subscribe({
