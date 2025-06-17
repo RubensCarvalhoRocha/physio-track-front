@@ -29,13 +29,13 @@ Este é o projeto **frontend** desenvolvido em **Angular** para o sistema **Phys
 ### 2️⃣ Clonar o repositório
 
 ```bash
-git clone https://...
+git clone https://github.com/RubensCarvalhoRocha/physio-track-front.git
 ```
 
 ### 3️⃣ Instalar as dependências
 
 ```bash
-cd physio-front
+cd physio-track-front
 npm install
 ```
 
