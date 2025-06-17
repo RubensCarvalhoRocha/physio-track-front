@@ -45,13 +45,6 @@
                 [dataSource]="pessoasDataSource"
                 class="min-w-full table-auto shadow-md border rounded-md bg-white"
             >
-                <!-- ID -->
-                <ng-container matColumnDef="id">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        ID
-                    </th>
-                    <td mat-cell *matCellDef="let pessoa">{{ pessoa.id }}</td>
-                </ng-container>
 
                 <!-- Nome -->
                 <ng-container matColumnDef="nome">

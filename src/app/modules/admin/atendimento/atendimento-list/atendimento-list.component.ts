@@ -16,7 +16,6 @@ export class AtendimentoListComponent implements OnInit {
 
     atendimentosDataSource = new MatTableDataSource<AtendimentoCompleto>();
     atendimentosColumns: string[] = [
-        'id',
         'paciente',
         'profissional',
         'tipoAtendimento',

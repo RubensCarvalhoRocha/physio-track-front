@@ -5,6 +5,7 @@ import { PessoaService } from '../pessoa.service';
 import { MatSort } from '@angular/material/sort';
 import { Pessoa } from 'app/models/pessoa';
 import { Router } from '@angular/router';
+import notyf from 'app/utils/utils';
 
 @Component({
     selector: 'app-pessoa-list',
@@ -17,7 +18,7 @@ export class PessoaListComponent implements OnInit {
 
     pessoasDataSource = new MatTableDataSource<Pessoa>();
     pessoasOriginais: Pessoa[] = [];
-    pessoasTableColumns: string[] = ['id', 'nome', 'cpf', 'telefone', 'acoes'];
+    pessoasTableColumns: string[] = ['nome', 'cpf', 'telefone', 'acoes'];
 
     constructor(
         private _pessoaService: PessoaService,
@@ -53,5 +54,18 @@ export class PessoaListComponent implements OnInit {
 
     cadastrarAvaliacao(pessoaId: number): void {
         this._router.navigate(['/avaliacao', 'novo', pessoaId]);
+    }
+
+    excluirPessoa(id: number): void {
+        if (confirm('Tem certeza que deseja excluir esta pessoa?')) {
+            this._pessoaService.excluirPessoa(id).subscribe({
+                next: () => {
+                    notyf.success('Pessoa excluída com sucesso!');
+                },
+                error: () => {
+                    notyf.error('Erro ao excluir a pessoa.');
+                },
+            });
+        }
     }
 }
