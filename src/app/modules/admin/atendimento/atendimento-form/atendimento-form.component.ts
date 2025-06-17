@@ -31,12 +31,14 @@ export class AtendimentoFormComponent implements OnInit {
 
             this.atendimentoForm = this.fb.group({
                 pacienteId: [idPaciente, Validators.required],
-                tipoAtendimento: [''],
-                dataAtendimento: [null],
+                tipoAtendimento: ['', Validators.required],
+                dataAtendimento: [null, Validators.required],
                 descricao: [''],
             });
 
             if (this.isEditMode) {
+                this.atendimentoForm.markAllAsTouched();
+
                 this._atendimentoService
                     .obterAtendimento(idAtendimento)
                     .subscribe((atendimento) => {
@@ -54,7 +56,7 @@ export class AtendimentoFormComponent implements OnInit {
                             : null;
 
                         this.atendimentoForm.patchValue({
-                            pacienteId: atendimento.pacienteId,
+                            pacienteId: atendimento.paciente.id,
                             tipoAtendimento: atendimento.tipoAtendimento,
                             dataAtendimento,
                             descricao: atendimento.descricao,
