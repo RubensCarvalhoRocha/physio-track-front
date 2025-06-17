@@ -17,7 +17,7 @@ Este é o projeto **frontend** desenvolvido em **Angular** para o sistema **Phys
 - **Node.js** v20.17.0
 - **TypeScript**
 - **RxJS**
-- **Tailwind CSSW**
+- **Tailwind CSS**
 
 ## ⚙️ Como executar o projeto localmente
 
