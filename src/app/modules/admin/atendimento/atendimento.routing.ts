@@ -5,6 +5,7 @@ import {
     AtendimentoResolver,
     AtendimentosResolver,
 } from './atendimento.resolver';
+import { AvaliacaoFormComponent } from './avaliacao-form/avaliacao-form.component';
 
 export const atendimentoRoutes: Route[] = [
     {
@@ -20,5 +21,9 @@ export const atendimentoRoutes: Route[] = [
         resolve: {
             AtendimentoResolver,
         },
+    },
+    {
+        path: 'avaliacao/novo/:idAtendimento',
+        component: AvaliacaoFormComponent,
     },
 ];

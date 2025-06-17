@@ -4,6 +4,7 @@ import { environment } from 'environments/environment';
 import { Atendimento } from 'app/models/atendimento';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { AvaliacaoRequestDTO } from 'app/models/interfaces/AvaliacaoRequestDTO';
 
 @Injectable({
     providedIn: 'root',
@@ -60,5 +61,15 @@ export class AtendimentoService {
                     this.listarAtendimentos().subscribe();
                 })
             );
+    }
+
+    cadastrarAvaliacao(
+        atendimentoId: number,
+        dto: AvaliacaoRequestDTO
+    ): Observable<void> {
+        return this._httpClient.post<void>(
+            `${environment.api}/api/avaliacao/register/${atendimentoId}`,
+            dto
+        );
     }
 }

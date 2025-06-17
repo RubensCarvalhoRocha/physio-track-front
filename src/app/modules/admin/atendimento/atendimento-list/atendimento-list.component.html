@@ -23,7 +23,7 @@
                     (keyup)="filtrar(searchField.value)"
                 />
             </div>
-            <div>
+            <!-- <div>
                 <button
                     mat-raised-button
                     color="primary"
@@ -31,7 +31,7 @@
                 >
                     Novo Atendimento
                 </button>
-            </div>
+            </div> -->
         </div>
 
         <!-- Tabela -->
@@ -98,7 +98,7 @@
                         <button
                             mat-flat-button
                             color="primary"
-                            (click)="cadastrarAvaliacao(atendimento.pacienteId)"
+                            (click)="cadastrarAvaliacao(atendimento.id)"
                             [matTooltip]="'Realizar Avaliação'"
                         >
                             <mat-icon
@@ -112,7 +112,9 @@
                             (click)="gerarRelatorio(atendimento.id)"
                             [matTooltip]="'Gerar Relatório'"
                         >
-                            <mat-icon svgIcon="mat_outline:stacked_line_chart"></mat-icon>
+                            <mat-icon
+                                svgIcon="mat_outline:stacked_line_chart"
+                            ></mat-icon>
                         </button>
                     </td>
                 </ng-container>

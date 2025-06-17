@@ -1,0 +1,399 @@
+<div class="w-full p-8 bg-white border rounded shadow">
+    <h2 class="text-3xl font-semibold mb-6">
+        {{ isEditMode ? "Editar Avaliação" : "Nova Avaliação" }}
+    </h2>
+
+    <form [formGroup]="avaliacaoForm" (ngSubmit)="salvar()" class="space-y-6">
+        <!-- Dados Gerais -->
+        <fieldset class="border p-4 rounded">
+            <legend class="font-semibold text-lg mb-2">Dados Gerais</legend>
+            <div class="grid grid-cols-4 gap-4">
+                <div>
+                    <mat-form-field appearance="fill" class="w-full"
+                        ><mat-label>Altura</mat-label
+                        ><input matInput type="number" formControlName="altura"
+                    /></mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field appearance="fill" class="w-full"
+                        ><mat-label>Peso</mat-label
+                        ><input matInput type="number" formControlName="peso"
+                    /></mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field appearance="fill" class="w-full"
+                        ><mat-label>IMC</mat-label
+                        ><input matInput type="number" formControlName="imc"
+                    /></mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field appearance="fill" class="w-full"
+                        ><mat-label>Esporte</mat-label
+                        ><input matInput type="text" formControlName="esporte"
+                    /></mat-form-field>
+                </div>
+
+                <div>
+                    <mat-form-field appearance="fill" class="w-full"
+                        ><mat-label>Diagnóstico Médico</mat-label
+                        ><input
+                            matInput
+                            type="text"
+                            formControlName="diagnosticoMedico"
+                    /></mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field appearance="fill" class="w-full"
+                        ><mat-label>Histórico de Saúde</mat-label
+                        ><input
+                            matInput
+                            type="text"
+                            formControlName="historicoSaude"
+                    /></mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field appearance="fill" class="w-full"
+                        ><mat-label>Medicamentos</mat-label
+                        ><input
+                            matInput
+                            type="text"
+                            formControlName="medicamentos"
+                    /></mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field appearance="fill" class="w-full"
+                        ><mat-label>Cirurgias</mat-label
+                        ><input matInput type="text" formControlName="cirurgia"
+                    /></mat-form-field>
+                </div>
+
+                <div>
+                    <mat-form-field appearance="fill" class="w-full"
+                        ><mat-label>Tratamentos Anteriores</mat-label
+                        ><input
+                            matInput
+                            type="text"
+                            formControlName="tratamentoAnterior"
+                    /></mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field appearance="fill" class="w-full"
+                        ><mat-label>Exame de Imagem</mat-label
+                        ><input
+                            matInput
+                            type="text"
+                            formControlName="exameImagem"
+                    /></mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field appearance="fill" class="w-full"
+                        ><mat-label>Objetivo do Tratamento</mat-label
+                        ><input
+                            matInput
+                            type="text"
+                            formControlName="objTratamento"
+                    /></mat-form-field>
+                </div>
+            </div>
+            <div class="mt-4">
+                <mat-form-field appearance="fill" class="w-full">
+                    <mat-label>Observações Gerais</mat-label>
+                    <textarea
+                        matInput
+                        formControlName="obsGerais"
+                        rows="4"
+                    ></textarea>
+                </mat-form-field>
+            </div>
+        </fieldset>
+
+        <!-- Perimetria -->
+        <fieldset class="border p-4 rounded">
+            <legend class="font-semibold text-lg mb-2">Perimetria</legend>
+            <div class="grid grid-cols-4 gap-4">
+                <div>
+                    <mat-form-field appearance="fill" class="w-full"
+                        ><mat-label>Medida 1D</mat-label
+                        ><input
+                            matInput
+                            type="number"
+                            formControlName="perimetriaMedida1D"
+                    /></mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field appearance="fill" class="w-full"
+                        ><mat-label>Medida 2D</mat-label
+                        ><input
+                            matInput
+                            type="number"
+                            formControlName="perimetriaMedida2D"
+                    /></mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field appearance="fill" class="w-full"
+                        ><mat-label>Medida 3D</mat-label
+                        ><input
+                            matInput
+                            type="number"
+                            formControlName="perimetriaMedida3D"
+                    /></mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field appearance="fill" class="w-full"
+                        ><mat-label>Panturrilha D</mat-label
+                        ><input
+                            matInput
+                            type="number"
+                            formControlName="perimetriaPanturrilhaD"
+                    /></mat-form-field>
+                </div>
+
+                <div>
+                    <mat-form-field appearance="fill" class="w-full"
+                        ><mat-label>Ass. Medida 1E</mat-label
+                        ><input
+                            matInput
+                            type="number"
+                            formControlName="perimetriaAssimetriaMedida1E"
+                    /></mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field appearance="fill" class="w-full"
+                        ><mat-label>Ass. Medida 2E</mat-label
+                        ><input
+                            matInput
+                            type="number"
+                            formControlName="perimetriaAssimetriaMedida2E"
+                    /></mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field appearance="fill" class="w-full"
+                        ><mat-label>Ass. Medida 3E</mat-label
+                        ><input
+                            matInput
+                            type="number"
+                            formControlName="perimetriaAssimetriaMedida3E"
+                    /></mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field appearance="fill" class="w-full"
+                        ><mat-label>Panturrilha E</mat-label
+                        ><input
+                            matInput
+                            type="number"
+                            formControlName="perimetriaPanturrilhaE"
+                    /></mat-form-field>
+                </div>
+
+                <div>
+                    <mat-form-field appearance="fill" class="w-full"
+                        ><mat-label>Ass. 1</mat-label
+                        ><input
+                            matInput
+                            type="number"
+                            formControlName="perimetriaMedidaAss1"
+                    /></mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field appearance="fill" class="w-full"
+                        ><mat-label>Ass. 2</mat-label
+                        ><input
+                            matInput
+                            type="number"
+                            formControlName="perimetriaMedidaAss2"
+                    /></mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field appearance="fill" class="w-full"
+                        ><mat-label>Ass. 3</mat-label
+                        ><input
+                            matInput
+                            type="number"
+                            formControlName="perimetriaMedidaAss3"
+                    /></mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field appearance="fill" class="w-full"
+                        ><mat-label>Panturrilha Ass.</mat-label
+                        ><input
+                            matInput
+                            type="number"
+                            formControlName="perimetriaPanturrilhaAss"
+                    /></mat-form-field>
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- Mobilidade e Força -->
+        <fieldset class="border p-4 rounded">
+            <legend class="font-semibold text-lg mb-2">
+                Mobilidade e Força
+            </legend>
+            <div class="grid grid-cols-4 gap-4">
+                <div>
+                    <mat-form-field appearance="fill" class="w-full"
+                        ><mat-label>Lunge D</mat-label
+                        ><input matInput type="number" formControlName="lungeD"
+                    /></mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field appearance="fill" class="w-full"
+                        ><mat-label>Lunge E</mat-label
+                        ><input matInput type="number" formControlName="lungeE"
+                    /></mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field appearance="fill" class="w-full"
+                        ><mat-label>Lunge Assimetria</mat-label
+                        ><input
+                            matInput
+                            type="number"
+                            formControlName="lungeAss"
+                    /></mat-form-field>
+                </div>
+
+                <div>
+                    <mat-form-field appearance="fill" class="w-full"
+                        ><mat-label>Rot. Quad. Int. D</mat-label
+                        ><input
+                            matInput
+                            type="number"
+                            formControlName="rotQuadInterD"
+                    /></mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field appearance="fill" class="w-full"
+                        ><mat-label>Rot. Quad. Int. E</mat-label
+                        ><input
+                            matInput
+                            type="number"
+                            formControlName="rotQuadInterE"
+                    /></mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field appearance="fill" class="w-full"
+                        ><mat-label>Rot. Quad. Int. Ass.</mat-label
+                        ><input
+                            matInput
+                            type="number"
+                            formControlName="rotQuadInterAss"
+                    /></mat-form-field>
+                </div>
+
+                <div>
+                    <mat-form-field appearance="fill" class="w-full"
+                        ><mat-label>Rot. Quad. Ext. D</mat-label
+                        ><input
+                            matInput
+                            type="number"
+                            formControlName="rotQuadExterD"
+                    /></mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field appearance="fill" class="w-full"
+                        ><mat-label>Rot. Quad. Ext. E</mat-label
+                        ><input
+                            matInput
+                            type="number"
+                            formControlName="rotQuadExterE"
+                    /></mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field appearance="fill" class="w-full"
+                        ><mat-label>Rot. Quad. Ext. Ass.</mat-label
+                        ><input
+                            matInput
+                            type="number"
+                            formControlName="rotQuadExterAss"
+                    /></mat-form-field>
+                </div>
+
+                <div>
+                    <mat-form-field appearance="fill" class="w-full"
+                        ><mat-label>Ext. Joelho D</mat-label
+                        ><input
+                            matInput
+                            type="number"
+                            formControlName="extJoelhoD"
+                    /></mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field appearance="fill" class="w-full"
+                        ><mat-label>Ext. Joelho E</mat-label
+                        ><input
+                            matInput
+                            type="number"
+                            formControlName="extJoelhoE"
+                    /></mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field appearance="fill" class="w-full"
+                        ><mat-label>Ext. Joelho Ass.</mat-label
+                        ><input
+                            matInput
+                            type="number"
+                            formControlName="extJoelhoAss"
+                    /></mat-form-field>
+                </div>
+
+                <div>
+                    <mat-form-field appearance="fill" class="w-full"
+                        ><mat-label>Flex. Joelho D</mat-label
+                        ><input
+                            matInput
+                            type="number"
+                            formControlName="flexJoelhoD"
+                    /></mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field appearance="fill" class="w-full"
+                        ><mat-label>Flex. Joelho E</mat-label
+                        ><input
+                            matInput
+                            type="number"
+                            formControlName="flexJoelhoE"
+                    /></mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field appearance="fill" class="w-full"
+                        ><mat-label>Flex. Joelho Ass.</mat-label
+                        ><input
+                            matInput
+                            type="number"
+                            formControlName="flexJoelhoAss"
+                    /></mat-form-field>
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- SLB Test -->
+        <fieldset class="border p-4 rounded">
+            <legend class="font-semibold text-lg mb-2">SLB Test</legend>
+            <div class="grid grid-cols-2 gap-4">
+                <mat-form-field appearance="fill" class="w-full">
+                    <mat-label>SLB Test D</mat-label>
+                    <input matInput type="number" formControlName="slbTestD" />
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="w-full">
+                    <mat-label>SLB Test E</mat-label>
+                    <input matInput type="number" formControlName="slbTestE" />
+                </mat-form-field>
+            </div>
+        </fieldset>
+
+        <!-- Botões -->
+        <div class="flex justify-end gap-4 pt-6 border-t">
+            <button type="button" mat-stroked-button (click)="cancelar()">
+                Cancelar
+            </button>
+            <button
+                type="submit"
+                mat-flat-button
+                color="primary"
+                [disabled]="avaliacaoForm.invalid"
+            >
+                {{ isEditMode ? "Atualizar" : "Salvar" }}
+            </button>
+        </div>
+    </form>
+</div>
