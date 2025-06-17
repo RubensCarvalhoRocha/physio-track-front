@@ -2,10 +2,12 @@
 
 Este é o projeto **frontend** desenvolvido em **Angular** para o sistema **PhysioTrack**.
 
-## ✨ Funcionalidades
+##  Funcionalidades
 🔐 Autenticação: login e cadastro com token JWT, armazenado de forma segura no localStorage
 
 📝 Gestão de Atendimentos: cadastro, edição e visualização de atendimentos
+
+📝 Gestão de Avaliação: cadastro, edição e visualização de avaliações
 
 🧍‍♂️ Gestão de Pacientes: cadastro, edição e visualização de pacientes
 
