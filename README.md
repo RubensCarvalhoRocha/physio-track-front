@@ -5,11 +5,11 @@ Este é o projeto **frontend** desenvolvido em **Angular** para o sistema **Phys
 ##  Funcionalidades
 🔐 Autenticação: login e cadastro com token JWT, armazenado de forma segura no localStorage
 
+🧍‍♂️ Gestão de Pacientes: cadastro, edição e visualização de pacientes
+
 📝 Gestão de Atendimentos: cadastro, edição e visualização de atendimentos
 
-📝 Gestão de Avaliação: cadastro, edição e visualização de avaliações
-
-🧍‍♂️ Gestão de Pacientes: cadastro, edição e visualização de pacientes
+🧾 Gestão de Avaliação: cadastro de avaliações, emissão de PDF da avaliação.
 
 ## 🚀 Tecnologias Utilizadas
 
@@ -17,7 +17,7 @@ Este é o projeto **frontend** desenvolvido em **Angular** para o sistema **Phys
 - **Node.js** v20.17.0
 - **TypeScript**
 - **RxJS**
-- **Tailwind CSSW**
+- **Tailwind CSS**
 
 ## ⚙️ Como executar o projeto localmente
 
