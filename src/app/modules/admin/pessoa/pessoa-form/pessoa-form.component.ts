@@ -73,6 +73,6 @@ export class PessoaFormComponent implements OnInit {
     }
 
     cancelar(): void {
-        this._router.navigate(['/pessoas']);
+        this._router.navigate(['/pessoa']);
     }
 }

@@ -80,6 +80,6 @@ export class AtendimentoFormComponent implements OnInit {
     }
 
     cancelar(): void {
-        this._router.navigate(['/atendimentos']);
+        this._router.navigate(['/atendimento']);
     }
 }
