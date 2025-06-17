@@ -11,6 +11,7 @@ import { PipeModule } from 'app/pipe/pipe.module';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 
 @NgModule({
     imports: [
@@ -27,6 +28,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
         MatSelectModule,
         MatFormFieldModule,
         MatInputModule,
+        NgxMaskDirective,
+        NgxMaskPipe,
     ],
     exports: [
         CommonModule,
@@ -42,6 +45,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
         MatSelectModule,
         MatFormFieldModule,
         MatInputModule,
+        NgxMaskDirective,
+        NgxMaskPipe,
     ],
+    providers: [provideNgxMask()],
 })
 export class SharedModule {}

@@ -30,6 +30,8 @@
                 type="text"
                 formControlName="cpf"
                 class="border rounded px-4 py-2 w-full text-lg"
+                mask="000.000.000-00"
+                (change)="validarCPF()"
             />
         </div>
 
@@ -39,6 +41,7 @@
             <input
                 type="text"
                 formControlName="telefone"
+                mask="(00) 0 0000-0000"
                 class="border rounded px-4 py-2 w-full text-lg"
             />
         </div>

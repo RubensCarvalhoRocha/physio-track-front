@@ -6,6 +6,7 @@ import { Pessoa } from 'app/models/pessoa';
 import notyf from 'app/utils/utils';
 import { Estado } from 'app/models/estado';
 import { Cidade } from 'app/models/cidade';
+import { validarCPF } from 'app/utils/validarCPF';
 
 @Component({
     selector: 'app-pessoa-form',
@@ -78,6 +79,19 @@ export class PessoaFormComponent implements OnInit {
         this._pessoaService.listarCidadesPorEstado(uf).subscribe((cidades) => {
             this.cidades = cidades;
         });
+    }
+
+    validarCPF(): void {
+        const cpfControl = this.pessoaForm.get('cpf');
+        const cpf = cpfControl?.value || '';
+
+        if (!validarCPF(cpf)) {
+            cpfControl?.setValue(null); // Limpa o campo
+            notyf.open({
+                type: 'warning',
+                message: 'CPF inválido.',
+            });
+        }
     }
 
     salvar(): void {
