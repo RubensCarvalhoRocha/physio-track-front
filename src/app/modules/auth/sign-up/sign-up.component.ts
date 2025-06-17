@@ -9,6 +9,10 @@ import { Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
+import { Cidade } from 'app/models/cidade';
+import { Estado } from 'app/models/estado';
+import { PessoaService } from 'app/modules/admin/pessoa/pessoa.service';
+import notyf from 'app/utils/utils';
 
 @Component({
     selector: 'auth-sign-up',
@@ -18,21 +22,22 @@ import { AuthService } from 'app/core/auth/auth.service';
 })
 export class AuthSignUpComponent implements OnInit {
     @ViewChild('signUpNgForm') signUpNgForm: NgForm;
-
     alert: { type: FuseAlertType; message: string } = {
         type: 'success',
         message: '',
     };
     signUpForm: UntypedFormGroup;
     showAlert: boolean = false;
-
+    estados: Estado[] = [];
+    cidades: Cidade[] = [];
     /**
      * Constructor
      */
     constructor(
-        private _authService: AuthService,
         private _formBuilder: UntypedFormBuilder,
-        private _router: Router
+        private _authService: AuthService,
+        private _router: Router,
+        private _pessoaService: PessoaService
     ) {}
 
     // -----------------------------------------------------------------------------------------------------
@@ -58,6 +63,20 @@ export class AuthSignUpComponent implements OnInit {
                 }),
             }),
         });
+
+        this._pessoaService.listarEstados().subscribe((estados) => {
+            this.estados = estados;
+        });
+
+        this.signUpForm
+            .get('pessoa.endereco.estadoId')
+            ?.valueChanges.subscribe((estadoId) => {
+                const estado = this.estados.find((e) => e.id === +estadoId);
+                if (estado?.sigla) {
+                    this.carregarCidades(estado.sigla);
+                    this.signUpForm.get('pessoa.endereco.cidade')?.setValue('');
+                }
+            });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -79,11 +98,14 @@ export class AuthSignUpComponent implements OnInit {
         // Hide the alert
         this.showAlert = false;
 
+        const userData = this.signUpForm.getRawValue();
+        console.log('Payload enviado:', userData);
+
         // Sign up
-        this._authService.signUp(this.signUpForm.value).subscribe(
+        this._authService.signUp(userData).subscribe(
             (response) => {
-                // Navigate to the confirmation required page
-                this._router.navigateByUrl('/confirmation-required');
+                notyf.success('Cadastro realizado com sucesso!');
+                this._router.navigateByUrl('/sign-in');
             },
             (response) => {
                 // Re-enable the form
@@ -102,5 +124,11 @@ export class AuthSignUpComponent implements OnInit {
                 this.showAlert = true;
             }
         );
+    }
+
+    carregarCidades(uf: string): void {
+        this._pessoaService.listarCidadesPorEstado(uf).subscribe((cidades) => {
+            this.cidades = cidades;
+        });
     }
 }

@@ -3,6 +3,8 @@ import { environment } from 'environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Pessoa } from 'app/models/pessoa';
+import { Estado } from 'app/models/estado';
+import { Cidade } from 'app/models/cidade';
 
 @Injectable({
     providedIn: 'root',
@@ -61,5 +63,15 @@ export class PessoaService {
                     this.listarPessoas().subscribe();
                 })
             );
+    }
+
+    listarEstados(): Observable<Estado[]> {
+        return this._httpClient.get<Estado[]>(`${environment.api}/api/estado`);
+    }
+
+    listarCidadesPorEstado(uf: string): Observable<Cidade[]> {
+        return this._httpClient.get<Cidade[]>(
+            `${environment.api}/api/cidade/ibge/${uf}`
+        );
     }
 }

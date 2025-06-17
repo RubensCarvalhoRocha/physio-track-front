@@ -1,4 +1,4 @@
-import { EnderecoRequestDTO } from "./EnderecoRequestDTO";
+import { EnderecoRequestDTO } from './EnderecoRequestDTO';
 
 export interface PessoaRequestDTO {
     nome: string;

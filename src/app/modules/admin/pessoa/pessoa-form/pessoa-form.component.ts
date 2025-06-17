@@ -4,6 +4,8 @@ import { PessoaService } from '../pessoa.service';
 import { Component, OnInit } from '@angular/core';
 import { Pessoa } from 'app/models/pessoa';
 import notyf from 'app/utils/utils';
+import { Estado } from 'app/models/estado';
+import { Cidade } from 'app/models/cidade';
 
 @Component({
     selector: 'app-pessoa-form',
@@ -12,17 +14,30 @@ import notyf from 'app/utils/utils';
 })
 export class PessoaFormComponent implements OnInit {
     pessoaForm!: FormGroup;
-    pessoa?: Pessoa;
+    estados: Estado[] = [];
+    cidades: Cidade[] = [];
     isEditMode = false;
+    pessoa?: Pessoa;
 
     constructor(
-        private fb: FormBuilder,
         private _activatedRouter: ActivatedRoute,
-        private _router: Router,
-        private pessoaService: PessoaService
+        private _pessoaService: PessoaService,
+        private fb: FormBuilder,
+        private _router: Router
     ) {}
 
     ngOnInit(): void {
+        this._pessoaService.listarEstados().subscribe((estados) => {
+            this.estados = estados;
+
+            // Carrega cidades se houver estado preenchido no modo de edição
+            const estadoId = this.pessoa?.endereco?.estadoId;
+            const estado = estados.find((e) => e.id === estadoId);
+            if (estado) {
+                this.carregarCidades(estado.sigla);
+            }
+        });
+
         this._activatedRouter.data.subscribe((data) => {
             this.pessoa = data['PessoaResolver'];
             this.isEditMode = !!(this.pessoa && this.pessoa.id);
@@ -34,10 +49,34 @@ export class PessoaFormComponent implements OnInit {
                 endereco: this.fb.group({
                     rua: [this.pessoa?.endereco?.rua || ''],
                     cep: [this.pessoa?.endereco?.cep || ''],
-                    cidade: [this.pessoa?.endereco?.cidade || ''],
-                    estadoId: [this.pessoa?.endereco?.estadoId || null],
+                    cidade: [
+                        this.pessoa?.endereco?.cidade || '',
+                        Validators.required,
+                    ],
+                    estadoId: [
+                        this.pessoa?.endereco?.estadoId || null,
+                        Validators.required,
+                    ],
                 }),
             });
+
+            // Detecta mudança no estado para carregar cidades
+            this.pessoaForm
+                .get('endereco.estadoId')
+                ?.valueChanges.subscribe((estadoId) => {
+                    const estado = this.estados.find((e) => e.id === +estadoId);
+                    if (estado?.sigla) {
+                        this.carregarCidades(estado.sigla);
+                        // Limpa cidade selecionada ao mudar o estado
+                        this.pessoaForm.get('endereco.cidade')?.setValue('');
+                    }
+                });
+        });
+    }
+
+    carregarCidades(uf: string): void {
+        this._pessoaService.listarCidadesPorEstado(uf).subscribe((cidades) => {
+            this.cidades = cidades;
         });
     }
 
@@ -48,7 +87,7 @@ export class PessoaFormComponent implements OnInit {
         };
 
         if (this.isEditMode && this.pessoa?.id) {
-            this.pessoaService
+            this._pessoaService
                 .atualizarPessoa(this.pessoa.id, pessoaData)
                 .subscribe({
                     next: () => {
@@ -60,7 +99,7 @@ export class PessoaFormComponent implements OnInit {
                     },
                 });
         } else {
-            this.pessoaService.cadastrarPessoa(pessoaData).subscribe({
+            this._pessoaService.cadastrarPessoa(pessoaData).subscribe({
                 next: () => {
                     notyf.success('Pessoa cadastrada com sucesso!');
                     this._router.navigate(['/pessoa']);

@@ -67,21 +67,35 @@
                 </div>
 
                 <div>
-                    <label>Cidade</label>
-                    <input
-                        type="text"
-                        formControlName="cidade"
+                    <label>Estado</label>
+                    <select
+                        formControlName="estadoId"
                         class="border rounded px-3 py-2 w-full"
-                    />
+                    >
+                        <option value="">Selecione um estado</option>
+                        <option
+                            *ngFor="let estado of estados"
+                            [value]="estado.id"
+                        >
+                            {{ estado.nome }} ({{ estado.sigla }})
+                        </option>
+                    </select>
                 </div>
 
                 <div>
-                    <label>Estado (ID)</label>
-                    <input
-                        type="number"
-                        formControlName="estadoId"
+                    <label>Cidade</label>
+                    <select
+                        formControlName="cidade"
                         class="border rounded px-3 py-2 w-full"
-                    />
+                    >
+                        <option value="">Selecione uma cidade</option>
+                        <option
+                            *ngFor="let cidade of cidades"
+                            [value]="cidade.nome"
+                        >
+                            {{ cidade.nome }}
+                        </option>
+                    </select>
                 </div>
             </div>
         </div>

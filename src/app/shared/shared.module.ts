@@ -8,6 +8,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltip, MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
 import { PipeModule } from 'app/pipe/pipe.module';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
     imports: [
@@ -21,6 +24,9 @@ import { PipeModule } from 'app/pipe/pipe.module';
         MatTooltipModule,
         MatButtonModule,
         PipeModule,
+        MatSelectModule,
+        MatFormFieldModule,
+        MatInputModule,
     ],
     exports: [
         CommonModule,
@@ -33,6 +39,9 @@ import { PipeModule } from 'app/pipe/pipe.module';
         MatTooltipModule,
         MatButtonModule,
         PipeModule,
+        MatSelectModule,
+        MatFormFieldModule,
+        MatInputModule,
     ],
 })
 export class SharedModule {}

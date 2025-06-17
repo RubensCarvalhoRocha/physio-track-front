@@ -118,18 +118,36 @@
                             <input matInput formControlName="cep" />
                         </mat-form-field>
 
+                        <!-- Estado -->
                         <mat-form-field class="w-full" appearance="fill">
                             <mat-label>Estado</mat-label>
-                            <input
-                                matInput
-                                type="number"
-                                formControlName="estadoId"
-                            />
+                            <mat-select formControlName="estadoId">
+                                <mat-option value=""
+                                    >Selecione um estado</mat-option
+                                >
+                                <mat-option
+                                    *ngFor="let estado of estados"
+                                    [value]="estado.id"
+                                >
+                                    {{ estado.nome }} ({{ estado.sigla }})
+                                </mat-option>
+                            </mat-select>
                         </mat-form-field>
 
+                        <!-- Cidade -->
                         <mat-form-field class="w-full" appearance="fill">
                             <mat-label>Cidade</mat-label>
-                            <input matInput formControlName="cidade" />
+                            <mat-select formControlName="cidade">
+                                <mat-option value=""
+                                    >Selecione uma cidade</mat-option
+                                >
+                                <mat-option
+                                    *ngFor="let cidade of cidades"
+                                    [value]="cidade.nome"
+                                >
+                                    {{ cidade.nome }}
+                                </mat-option>
+                            </mat-select>
                         </mat-form-field>
                     </div>
                 </div>
