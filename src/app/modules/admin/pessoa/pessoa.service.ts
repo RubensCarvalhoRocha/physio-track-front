@@ -45,7 +45,7 @@ export class PessoaService {
 
     atualizarPessoa(id: number, pessoa: Pessoa): Observable<Pessoa> {
         return this._httpClient
-            .put<Pessoa>(`${environment.api}api/pessoa/${id}`, pessoa)
+            .put<Pessoa>(`${environment.api}/api/pessoa/${id}`, pessoa)
             .pipe(
                 tap((updatedPessoa) => {
                     // Opcional: atualizar lista de pessoas localmente, se você quiser
