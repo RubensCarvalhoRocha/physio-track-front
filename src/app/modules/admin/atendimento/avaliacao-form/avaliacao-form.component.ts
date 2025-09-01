@@ -27,7 +27,7 @@ export class AvaliacaoFormComponent implements OnInit {
         this.avaliacaoForm = this.fb.group({
             altura: [null],
             peso: [null],
-            imc: [null],
+            imc: [{ value: null, disabled: true }],
 
             esporte: [''],
             queixas: [''],
@@ -91,6 +91,14 @@ export class AvaliacaoFormComponent implements OnInit {
         });
 
         // carregar dados se modo edição for implementado depois
+
+        // 🔥 Atualiza IMC automaticamente quando altura ou peso mudar
+        this.avaliacaoForm
+            .get('altura')
+            ?.valueChanges.subscribe(() => this.calcularIMC());
+        this.avaliacaoForm
+            .get('peso')
+            ?.valueChanges.subscribe(() => this.calcularIMC());
     }
 
     salvar(): void {
@@ -112,5 +120,20 @@ export class AvaliacaoFormComponent implements OnInit {
 
     cancelar(): void {
         this.router.navigate(['/atendimento']);
+    }
+
+    private calcularIMC(): void {
+        const altura = this.avaliacaoForm.get('altura')?.value;
+        const peso = this.avaliacaoForm.get('peso')?.value;
+
+        if (altura && peso) {
+            const alturaMetros = altura / 100; // se altura for em cm
+            const imc = peso / (alturaMetros * alturaMetros);
+            this.avaliacaoForm
+                .get('imc')
+                ?.setValue(Number(imc.toFixed(2)), { emitEvent: false });
+        } else {
+            this.avaliacaoForm.get('imc')?.setValue(null, { emitEvent: false });
+        }
     }
 }
