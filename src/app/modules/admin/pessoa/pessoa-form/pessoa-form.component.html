@@ -12,15 +12,6 @@
                 formControlName="nome"
                 class="border rounded px-4 py-2 w-full text-lg"
             />
-            <div
-                *ngIf="
-                    pessoaForm.get('nome')?.invalid &&
-                    pessoaForm.get('nome')?.touched
-                "
-                class="text-red-500 text-sm mt-1"
-            >
-                Nome é obrigatório.
-            </div>
         </div>
 
         <!-- CPF -->
@@ -50,55 +41,45 @@
         <div formGroupName="endereco">
             <h3 class="text-xl font-semibold mb-2">Endereço</h3>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+                <label>CEP</label>
+                <input
+                    type="text"
+                    formControlName="cep"
+                    class="border rounded px-3 py-2 w-full"
+                    (blur)="buscarCep()"
+                />
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-2">
                 <div>
                     <label>Rua</label>
                     <input
                         type="text"
                         formControlName="rua"
-                        class="border rounded px-3 py-2 w-full"
+                        class="border rounded px-3 py-2 w-full bg-gray-100"
+                        disabled
                     />
                 </div>
 
                 <div>
-                    <label>CEP</label>
+                    <label>Cidade</label>
                     <input
                         type="text"
-                        formControlName="cep"
-                        class="border rounded px-3 py-2 w-full"
+                        formControlName="cidade"
+                        class="border rounded px-3 py-2 w-full bg-gray-100"
+                        disabled
                     />
                 </div>
 
                 <div>
                     <label>Estado</label>
-                    <select
-                        formControlName="estadoId"
-                        class="border rounded px-3 py-2 w-full"
-                    >
-                        <option value="">Selecione um estado</option>
-                        <option
-                            *ngFor="let estado of estados"
-                            [value]="estado.id"
-                        >
-                            {{ estado.nome }} ({{ estado.sigla }})
-                        </option>
-                    </select>
-                </div>
-
-                <div>
-                    <label>Cidade</label>
-                    <select
-                        formControlName="cidade"
-                        class="border rounded px-3 py-2 w-full"
-                    >
-                        <option value="">Selecione uma cidade</option>
-                        <option
-                            *ngFor="let cidade of cidades"
-                            [value]="cidade.nome"
-                        >
-                            {{ cidade.nome }}
-                        </option>
-                    </select>
+                    <input
+                        type="text"
+                        [value]="estadoNomeAtual"
+                        class="border rounded px-3 py-2 w-full bg-gray-100"
+                        disabled
+                    />
                 </div>
             </div>
         </div>

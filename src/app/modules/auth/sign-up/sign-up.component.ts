@@ -9,11 +9,9 @@ import { Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
-import { Cidade } from 'app/models/cidade';
-import { Estado } from 'app/models/estado';
-import { PessoaService } from 'app/modules/admin/pessoa/pessoa.service';
 import notyf from 'app/utils/utils';
 import { validarCPF } from 'app/utils/validarCPF';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     selector: 'auth-sign-up',
@@ -29,8 +27,7 @@ export class AuthSignUpComponent implements OnInit {
     };
     signUpForm: UntypedFormGroup;
     showAlert: boolean = false;
-    estados: Estado[] = [];
-    cidades: Cidade[] = [];
+
     /**
      * Constructor
      */
@@ -38,7 +35,7 @@ export class AuthSignUpComponent implements OnInit {
         private _formBuilder: UntypedFormBuilder,
         private _authService: AuthService,
         private _router: Router,
-        private _pessoaService: PessoaService
+        private _http: HttpClient
     ) {}
 
     // -----------------------------------------------------------------------------------------------------
@@ -57,32 +54,58 @@ export class AuthSignUpComponent implements OnInit {
                 cpf: ['', Validators.required],
                 telefone: ['', Validators.required],
                 endereco: this._formBuilder.group({
-                    rua: ['', Validators.required],
                     cep: ['', Validators.required],
-                    estadoId: [null, Validators.required],
-                    cidade: ['', Validators.required],
+                    rua: [{ value: '', disabled: true }, Validators.required],
+                    bairro: [{ value: '', disabled: true }, Validators.required],
+                    localidade: [{ value: '', disabled: true }, Validators.required],
+                    uf: [{ value: '', disabled: true }, Validators.required],
                 }),
             }),
         });
-
-        this._pessoaService.listarEstados().subscribe((estados) => {
-            this.estados = estados;
-        });
-
-        this.signUpForm
-            .get('pessoa.endereco.estadoId')
-            ?.valueChanges.subscribe((estadoId) => {
-                const estado = this.estados.find((e) => e.id === +estadoId);
-                if (estado?.sigla) {
-                    this.carregarCidades(estado.sigla);
-                    this.signUpForm.get('pessoa.endereco.cidade')?.setValue('');
-                }
-            });
     }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Busca CEP no backend
+     */
+    buscarCep(): void {
+        const cep = this.signUpForm.get('pessoa.endereco.cep')?.value;
+
+        if (!cep) {
+            return;
+        }
+
+        this._http.get<any>(`http://localhost:8080/api/cep/${cep}`).subscribe({
+            next: (dados) => {
+                if (dados?.cep) {
+                    this.signUpForm.patchValue({
+                        pessoa: {
+                            endereco: {
+                                rua: dados.logradouro,
+                                bairro: dados.bairro,
+                                localidade: dados.localidade,
+                                uf: dados.uf,
+                            },
+                        },
+                    });
+                } else {
+                    notyf.open({
+                        type: 'warning',
+                        message: 'CEP não encontrado.',
+                    });
+                }
+            },
+            error: () => {
+                notyf.open({
+                    type: 'error',
+                    message: 'Erro ao buscar CEP.',
+                });
+            },
+        });
+    }
 
     /**
      * Sign up
@@ -125,12 +148,6 @@ export class AuthSignUpComponent implements OnInit {
                 this.showAlert = true;
             }
         );
-    }
-
-    carregarCidades(uf: string): void {
-        this._pessoaService.listarCidadesPorEstado(uf).subscribe((cidades) => {
-            this.cidades = cidades;
-        });
     }
 
     validarCPF(): void {

@@ -19,6 +19,7 @@ export class PessoaFormComponent implements OnInit {
     cidades: Cidade[] = [];
     isEditMode = false;
     pessoa?: Pessoa;
+    estadoNomeAtual: string = '';
 
     constructor(
         private _activatedRouter: ActivatedRoute,
@@ -31,11 +32,10 @@ export class PessoaFormComponent implements OnInit {
         this._pessoaService.listarEstados().subscribe((estados) => {
             this.estados = estados;
 
-            // Carrega cidades se houver estado preenchido no modo de edição
             const estadoId = this.pessoa?.endereco?.estadoId;
             const estado = estados.find((e) => e.id === estadoId);
             if (estado) {
-                this.carregarCidades(estado.sigla);
+                this.estadoNomeAtual = estado.nome;
             }
         });
 
@@ -48,37 +48,48 @@ export class PessoaFormComponent implements OnInit {
                 cpf: [this.pessoa?.cpf || ''],
                 telefone: [this.pessoa?.telefone || ''],
                 endereco: this.fb.group({
-                    rua: [this.pessoa?.endereco?.rua || ''],
-                    cep: [this.pessoa?.endereco?.cep || ''],
-                    cidade: [
-                        this.pessoa?.endereco?.cidade || '',
-                        Validators.required,
-                    ],
-                    estadoId: [
-                        this.pessoa?.endereco?.estadoId || null,
-                        Validators.required,
-                    ],
+                    cep: [this.pessoa?.endereco?.cep || '', Validators.required],
+                    rua: [{ value: this.pessoa?.endereco?.rua || '', disabled: true }],
+                    cidade: [{ value: this.pessoa?.endereco?.cidade || '', disabled: true }],
+                    estadoId: [{ value: this.pessoa?.endereco?.estadoId || null, disabled: true }],
                 }),
             });
-
-            // Detecta mudança no estado para carregar cidades
-            this.pessoaForm
-                .get('endereco.estadoId')
-                ?.valueChanges.subscribe((estadoId) => {
-                    const estado = this.estados.find((e) => e.id === +estadoId);
-                    if (estado?.sigla) {
-                        this.carregarCidades(estado.sigla);
-                        // Limpa cidade selecionada ao mudar o estado
-                        this.pessoaForm.get('endereco.cidade')?.setValue('');
-                    }
-                });
         });
     }
 
-    carregarCidades(uf: string): void {
-        this._pessoaService.listarCidadesPorEstado(uf).subscribe((cidades) => {
-            this.cidades = cidades;
+    buscarCep(): void {
+        const cepControl = this.pessoaForm.get('endereco.cep');
+        const cep = cepControl?.value || '';
+        if (!cep) return;
+
+        this._pessoaService.buscarCep(cep).subscribe({
+            next: (dados) => {
+                if (dados?.cep) {
+                    const estadoId = this.getEstadoIdPorSigla(dados.uf);
+                    const estadoNome = this.estados.find(e => e.id === estadoId)?.nome || '';
+
+                    this.estadoNomeAtual = estadoNome;
+
+                    this.pessoaForm.patchValue({
+                        endereco: {
+                            rua: dados.logradouro || '',
+                            cidade: dados.localidade || '',
+                            estadoId: estadoId,
+                        },
+                    });
+                } else {
+                    notyf.open({ type: 'warning', message: 'CEP não encontrado.' });
+                }
+            },
+            error: () => {
+                notyf.open({ type: 'error', message: 'Erro ao buscar CEP.' });
+            },
         });
+    }
+
+    private getEstadoIdPorSigla(sigla: string): number | null {
+        const estado = this.estados.find((e) => e.sigla === sigla);
+        return estado ? estado.id : null;
     }
 
     validarCPF(): void {
@@ -86,7 +97,7 @@ export class PessoaFormComponent implements OnInit {
         const cpf = cpfControl?.value || '';
 
         if (!validarCPF(cpf)) {
-            cpfControl?.setValue(null); // Limpa o campo
+            cpfControl?.setValue(null);
             notyf.open({
                 type: 'warning',
                 message: 'CPF inválido.',
@@ -97,7 +108,7 @@ export class PessoaFormComponent implements OnInit {
     salvar(): void {
         const pessoaData: Pessoa = {
             ...this.pessoa,
-            ...this.pessoaForm.value,
+            ...this.pessoaForm.getRawValue(),
         };
 
         if (this.isEditMode && this.pessoa?.id) {

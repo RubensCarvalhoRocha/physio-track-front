@@ -74,4 +74,8 @@ export class PessoaService {
             `${environment.api}/api/cidade/ibge/${uf}`
         );
     }
+
+    buscarCep(cep: string): Observable<any> {
+        return this._httpClient.get<any>(`${environment.api}/api/cep/${cep}`);
+    }
 }

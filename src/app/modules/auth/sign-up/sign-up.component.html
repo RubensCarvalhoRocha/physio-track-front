@@ -117,48 +117,37 @@
 
                     <!-- Endereço -->
                     <div formGroupName="endereco">
-                        <mat-form-field class="w-full" appearance="fill">
-                            <mat-label>Rua</mat-label>
-                            <input matInput formControlName="rua" />
-                        </mat-form-field>
-
+                        <!-- CEP -->
                         <mat-form-field class="w-full" appearance="fill">
                             <mat-label>CEP</mat-label>
-                            <input matInput formControlName="cep" />
+                            <input matInput formControlName="cep" (blur)="buscarCep()" />
                         </mat-form-field>
 
-                        <!-- Estado -->
+                        <!-- Rua -->
                         <mat-form-field class="w-full" appearance="fill">
-                            <mat-label>Estado</mat-label>
-                            <mat-select formControlName="estadoId">
-                                <mat-option value=""
-                                    >Selecione um estado</mat-option
-                                >
-                                <mat-option
-                                    *ngFor="let estado of estados"
-                                    [value]="estado.id"
-                                >
-                                    {{ estado.nome }} ({{ estado.sigla }})
-                                </mat-option>
-                            </mat-select>
+                            <mat-label>Rua</mat-label>
+                            <input matInput formControlName="rua" readonly />
+                        </mat-form-field>
+
+                        <!-- Bairro -->
+                        <mat-form-field class="w-full" appearance="fill">
+                            <mat-label>Bairro</mat-label>
+                            <input matInput formControlName="bairro" readonly />
                         </mat-form-field>
 
                         <!-- Cidade -->
                         <mat-form-field class="w-full" appearance="fill">
                             <mat-label>Cidade</mat-label>
-                            <mat-select formControlName="cidade">
-                                <mat-option value=""
-                                    >Selecione uma cidade</mat-option
-                                >
-                                <mat-option
-                                    *ngFor="let cidade of cidades"
-                                    [value]="cidade.nome"
-                                >
-                                    {{ cidade.nome }}
-                                </mat-option>
-                            </mat-select>
+                            <input matInput formControlName="localidade" readonly />
+                        </mat-form-field>
+
+                        <!-- Estado -->
+                        <mat-form-field class="w-full" appearance="fill">
+                            <mat-label>Estado</mat-label>
+                            <input matInput formControlName="uf" readonly />
                         </mat-form-field>
                     </div>
+
                 </div>
 
                 <!-- Submit button -->
