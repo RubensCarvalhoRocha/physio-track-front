@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { AvaliacaoFormComponent } from './avaliacao-form/avaliacao-form.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
     declarations: [AtendimentoFormComponent, AtendimentoListComponent, AvaliacaoFormComponent],
@@ -13,6 +14,7 @@ import { AvaliacaoFormComponent } from './avaliacao-form/avaliacao-form.componen
         CommonModule,
         RouterModule.forChild(atendimentoRoutes),
         SharedModule,
+        MatExpansionModule
     ],
 })
 export class AtendimentoModule {}
