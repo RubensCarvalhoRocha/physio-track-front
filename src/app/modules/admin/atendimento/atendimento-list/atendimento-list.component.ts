@@ -1,11 +1,18 @@
 import { AtendimentoCompleto } from 'app/models/atendimentoCompleto';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+    AfterViewInit,
+    Component,
+    OnInit,
+    ViewChild,
+    ElementRef,
+} from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { AtendimentoService } from '../atendimento.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import notyf from 'app/utils/utils';
+
 @Component({
     selector: 'app-atendimento-list',
     templateUrl: './atendimento-list.component.html',
@@ -14,6 +21,7 @@ import notyf from 'app/utils/utils';
 export class AtendimentoListComponent implements OnInit {
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
+    @ViewChild('searchField') searchField!: ElementRef<HTMLInputElement>; // 👈 referência ao input
 
     atendimentosDataSource = new MatTableDataSource<AtendimentoCompleto>();
     atendimentosColumns: string[] = [
@@ -26,7 +34,8 @@ export class AtendimentoListComponent implements OnInit {
 
     constructor(
         private _atendimentoService: AtendimentoService,
-        private _router: Router
+        private _router: Router,
+        private _route: ActivatedRoute // 👈 para acessar query params
     ) {}
 
     ngOnInit(): void {
@@ -43,6 +52,23 @@ export class AtendimentoListComponent implements OnInit {
                 data.usuario?.pessoa?.nome?.toLowerCase().includes(filter)
             );
         };
+
+        // 👇 escuta o query param "nome" e aplica o filtro automaticamente
+        this._route.queryParams.subscribe((params) => {
+            const nome = params['nome'];
+            if (nome) {
+                setTimeout(() => {
+                    if (this.searchField) {
+                        this.searchField.nativeElement.value = nome;
+                    }
+                    this.filtrar(nome);
+
+                    // opcional: limpa os params da URL após aplicar
+                    this._router.navigate([], { queryParams: {} });
+                });
+            }
+        });
+    }
 
         setTimeout(() => {
             this.atendimentosDataSource.sort = this.sort;
@@ -82,7 +108,6 @@ export class AtendimentoListComponent implements OnInit {
 
                 let mensagem = 'Erro ao gerar relatório.';
 
-                // Se o erro for Blob, tenta extrair texto e parsear como JSON
                 if (
                     err?.error instanceof Blob &&
                     err.error.type === 'application/json'
@@ -91,9 +116,7 @@ export class AtendimentoListComponent implements OnInit {
                     try {
                         const json = JSON.parse(text);
                         mensagem = json?.message || mensagem;
-                    } catch (e) {
-                        // Não era JSON válido
-                    }
+                    } catch (e) {}
                 }
 
                 notyf.error(mensagem);

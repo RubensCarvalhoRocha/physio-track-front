@@ -87,6 +87,18 @@
                         <button
                             mat-flat-button
                             color="primary"
+                            [routerLink]="['/atendimento']"
+                            [queryParams]="{ nome: pessoa.nome }"
+                            [matTooltip]="'Ver Atendimentos'"
+                        >
+                            <mat-icon
+                                svgIcon="heroicons_outline:clipboard-list"
+                            ></mat-icon>
+                        </button>
+
+                        <button
+                            mat-flat-button
+                            color="primary"
                             (click)="cadastrarAtendimento(pessoa.id)"
                             [matTooltip]="'Realizar Atendimento'"
                         >

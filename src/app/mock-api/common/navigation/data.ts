@@ -24,6 +24,7 @@ export const compactNavigation: FuseNavigationItem[] = [
         type: 'basic',
         icon: 'heroicons_outline:clipboard',
         link: '/atendimento',
+        hidden: (item) => true
     },
 ];
 export const futuristicNavigation: FuseNavigationItem[] = [
