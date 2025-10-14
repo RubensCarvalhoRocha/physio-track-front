@@ -68,7 +68,7 @@ export class AtendimentoListComponent implements OnInit {
                 });
             }
         });
-    }
+
 
         setTimeout(() => {
             this.atendimentosDataSource.sort = this.sort;
