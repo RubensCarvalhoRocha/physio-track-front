@@ -1,94 +1,125 @@
 <div class="flex flex-col flex-auto w-full">
-    <div class="flex flex-wrap w-full max-w-screen-xl mx-auto p-3 md:p-4">
-        <!-- Título -->
+    <div class="flex flex-col w-full max-w-screen-xl mx-auto p-3 md:p-4">
+        <!-- Título e botão -->
         <div
-            class="flex items-center justify-between flex-wrap gap-4 w-full mb-6"
+            class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 w-full mb-4"
         >
-            <h2 class="text-3xl font-semibold tracking-tight leading-8 m-0">
+            <h2
+                class="text-2xl sm:text-3xl font-semibold tracking-tight leading-8 text-center sm:text-left"
+            >
                 Pacientes
             </h2>
+
+            <button
+                mat-raised-button
+                color="primary"
+                [routerLink]="['nova']"
+                class="w-full sm:w-auto"
+            >
+                Novo Paciente
+            </button>
         </div>
 
-        <!-- Campo de busca + Botão Novo lado a lado -->
+        <!-- Campo de busca -->
+        <div class="w-full mb-6">
+            <input
+                class="bg-white border border-gray-300 rounded-md w-full p-3 shadow-sm text-base"
+                matInput
+                autocomplete="off"
+                placeholder="Buscar por nome do paciente..."
+                #searchField
+                (keyup)="filtrarPessoas(searchField.value)"
+            />
+        </div>
+
+        <!-- 📋 Tabela (somente em telas médias e grandes) -->
         <div
-            class="flex items-center justify-between w-full mb-6 gap-4 flex-wrap"
+            class="overflow-x-auto bg-white rounded-md shadow-md border border-gray-100 w-full hidden sm:block"
         >
-            <!-- Campo de busca -->
-            <div class="flex-grow">
-                <input
-                    class="bg-white border border-gray-300 rounded-md w-full p-3 shadow-sm"
-                    matInput
-                    autocomplete="off"
-                    placeholder="Buscar por Nome"
-                    #searchField
-                    (keyup)="filtrarPessoas(searchField.value)"
-                />
-            </div>
-
-            <!-- Botão Nova Pessoa -->
-            <div>
-                <button
-                    mat-raised-button
-                    color="primary"
-                    [routerLink]="['nova']"
-                >
-                    Novo Paciente
-                </button>
-            </div>
-        </div>
-
-        <!-- Tabela -->
-        <div class="overflow-x-auto w-full">
             <table
                 mat-table
                 matSort
                 [dataSource]="pessoasDataSource"
-                class="min-w-full table-auto shadow-md border rounded-md bg-white"
+                class="min-w-full text-sm"
             >
                 <!-- Nome -->
                 <ng-container matColumnDef="nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="px-4 py-3 text-left font-semibold text-gray-700"
+                    >
                         Nome
                     </th>
-                    <td mat-cell *matCellDef="let pessoa">{{ pessoa.nome }}</td>
+                    <td
+                        mat-cell
+                        *matCellDef="let pessoa"
+                        class="px-4 py-3 break-words"
+                    >
+                        {{ pessoa.nome }}
+                    </td>
                 </ng-container>
 
                 <!-- CPF -->
                 <ng-container matColumnDef="cpf">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="px-4 py-3 text-left font-semibold text-gray-700"
+                    >
                         CPF
                     </th>
-                    <td mat-cell *matCellDef="let pessoa">{{ pessoa.cpf }}</td>
+                    <td
+                        mat-cell
+                        *matCellDef="let pessoa"
+                        class="px-4 py-3 break-all"
+                    >
+                        {{ pessoa.cpf }}
+                    </td>
                 </ng-container>
 
                 <!-- Telefone -->
                 <ng-container matColumnDef="telefone">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="px-4 py-3 text-left font-semibold text-gray-700"
+                    >
                         Telefone
                     </th>
-                    <td mat-cell *matCellDef="let pessoa">
+                    <td mat-cell *matCellDef="let pessoa" class="px-4 py-3">
                         {{ pessoa.telefone }}
                     </td>
                 </ng-container>
 
                 <!-- Ações -->
                 <ng-container matColumnDef="acoes">
-                    <th mat-header-cell *matHeaderCellDef>Ações</th>
-                    <td mat-cell *matCellDef="let pessoa">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="px-4 py-3 text-center font-semibold text-gray-700"
+                    >
+                        Ações
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let pessoa"
+                        class="px-4 py-3 flex items-center justify-center flex-wrap gap-2"
+                    >
                         <button
-                            mat-flat-button
+                            mat-icon-button
                             color="primary"
                             [routerLink]="[pessoa.id]"
-                            [matTooltip]="'Editar pessoa'"
+                            [matTooltip]="'Editar'"
                         >
                             <mat-icon svgIcon="mat_outline:edit"></mat-icon>
                         </button>
 
                         <button
-                            mat-flat-button
+                            mat-icon-button
                             color="primary"
                             [routerLink]="['/atendimento/paciente', pessoa.id]"
-                            [matTooltip]="'Ver Atendimentos'"
+                            [matTooltip]="'Ver atendimentos'"
                         >
                             <mat-icon
                                 svgIcon="heroicons_outline:clipboard-list"
@@ -96,19 +127,19 @@
                         </button>
 
                         <button
-                            mat-flat-button
+                            mat-icon-button
                             color="primary"
                             (click)="cadastrarAtendimento(pessoa.id)"
-                            [matTooltip]="'Realizar Atendimento'"
+                            [matTooltip]="'Novo atendimento'"
                         >
                             <mat-icon svgIcon="feather:clipboard"></mat-icon>
                         </button>
 
                         <button
-                            mat-flat-button
+                            mat-icon-button
                             color="warn"
                             (click)="excluirPessoa(pessoa.id)"
-                            [matTooltip]="'Excluir pessoa'"
+                            [matTooltip]="'Excluir'"
                         >
                             <mat-icon
                                 svgIcon="mat_outline:delete_outline"
@@ -117,20 +148,87 @@
                     </td>
                 </ng-container>
 
-                <tr mat-header-row *matHeaderRowDef="pessoasTableColumns"></tr>
+                <tr
+                    mat-header-row
+                    *matHeaderRowDef="pessoasTableColumns"
+                    class="bg-gray-50"
+                ></tr>
                 <tr
                     mat-row
                     *matRowDef="let row; columns: pessoasTableColumns"
+                    class="hover:bg-gray-50 transition"
                 ></tr>
             </table>
         </div>
 
+        <!-- 📱 Cards (somente em telas pequenas) -->
+        <div
+            class="grid grid-cols-1 sm:hidden gap-4 w-full mt-4"
+            *ngIf="pessoasDataSource?.data?.length"
+        >
+            <div
+                *ngFor="let pessoa of pessoasDataSource.data"
+                class="bg-white rounded-lg shadow-sm border p-4 flex flex-col gap-2"
+            >
+                <h3 class="text-lg font-semibold text-gray-800">
+                    {{ pessoa.nome }}
+                </h3>
+                <p class="text-sm text-gray-600">
+                    <span class="font-medium">CPF:</span> {{ pessoa.cpf }}
+                </p>
+                <p class="text-sm text-gray-600">
+                    <span class="font-medium">Telefone:</span>
+                    {{ pessoa.telefone || '—' }}
+                </p>
+
+                <div class="flex justify-end flex-wrap gap-2 pt-2 border-t">
+                    <button
+                        mat-icon-button
+                        color="primary"
+                        [routerLink]="[pessoa.id]"
+                        matTooltip="Editar"
+                    >
+                        <mat-icon svgIcon="mat_outline:edit"></mat-icon>
+                    </button>
+
+                    <button
+                        mat-icon-button
+                        color="primary"
+                        [routerLink]="['/atendimento/paciente', pessoa.id]"
+                        matTooltip="Ver atendimentos"
+                    >
+                        <mat-icon
+                            svgIcon="heroicons_outline:clipboard-list"
+                        ></mat-icon>
+                    </button>
+
+                    <button
+                        mat-icon-button
+                        color="primary"
+                        (click)="cadastrarAtendimento(pessoa.id)"
+                        matTooltip="Novo atendimento"
+                    >
+                        <mat-icon svgIcon="feather:clipboard"></mat-icon>
+                    </button>
+
+                    <button
+                        mat-icon-button
+                        color="warn"
+                        (click)="excluirPessoa(pessoa.id)"
+                        matTooltip="Excluir"
+                    >
+                        <mat-icon svgIcon="mat_outline:delete_outline"></mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <!-- Nenhuma pessoa encontrada -->
         <div
-            class="p-5 bg-white border border-t-0 border-l-0 border-r-0 border-b-1 w-full"
+            class="p-5 bg-white border rounded-md w-full text-center text-gray-600 mt-4"
             *ngIf="!pessoasDataSource?.data?.length"
         >
-            <label>Nenhuma pessoa encontrada para esse filtro.</label>
+            Nenhum paciente encontrado.
         </div>
 
         <!-- Paginador -->
