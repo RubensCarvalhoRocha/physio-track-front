@@ -11,6 +11,8 @@ import notyf from 'app/utils/utils';
     styleUrls: ['./atendimento-form.component.scss'],
 })
 export class AtendimentoFormComponent implements OnInit {
+    idPaciente?: number;
+    idAtendimento?: any;
     atendimentoForm!: FormGroup;
     atendimento?: Atendimento;
     isEditMode = false;
@@ -24,13 +26,13 @@ export class AtendimentoFormComponent implements OnInit {
 
     ngOnInit(): void {
         this._activatedRoute.params.subscribe((params) => {
-            const idPaciente = params['idPaciente'];
-            const idAtendimento = params['idAtendimento'];
+            this.idPaciente = params['idPaciente'];
+            this.idAtendimento = params['idAtendimento'];
 
-            this.isEditMode = idAtendimento !== 'novo';
+            this.isEditMode = this.idAtendimento !== 'novo';
 
             this.atendimentoForm = this.fb.group({
-                pacienteId: [idPaciente, Validators.required],
+                pacienteId: [this.idPaciente, Validators.required],
                 tipoAtendimento: ['', Validators.required],
                 dataAtendimento: [null, Validators.required],
                 descricao: [''],
@@ -40,7 +42,7 @@ export class AtendimentoFormComponent implements OnInit {
                 this.atendimentoForm.markAllAsTouched();
 
                 this._atendimentoService
-                    .obterAtendimento(idAtendimento)
+                    .obterAtendimento(this.idAtendimento)
                     .subscribe((atendimento) => {
                         this.atendimento = atendimento;
 
@@ -90,7 +92,7 @@ export class AtendimentoFormComponent implements OnInit {
                 .subscribe({
                     next: () => {
                         notyf.success('Atendimento cadastrado com sucesso!');
-                        this._router.navigate(['/atendimento']);
+                        this._router.navigate(['/atendimento/paciente', this.idPaciente]);
                     },
                     error: () => {
                         notyf.error('Erro ao cadastrar o atendimento.');
@@ -100,6 +102,6 @@ export class AtendimentoFormComponent implements OnInit {
     }
 
     cancelar(): void {
-        this._router.navigate(['/atendimento']);
+        this._router.navigate(['/atendimento/paciente', this.idPaciente]);
     }
 }

@@ -39,6 +39,7 @@ export class AtendimentoListComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
+        console.log(this.pacienteNome);
         // 🧱 Inicializa formulário de filtro
         this.filtroForm = this._fb.group({
             dataInicio: [''],
@@ -163,5 +164,9 @@ export class AtendimentoListComponent implements OnInit {
                     notyf.error(mensagem);
                 },
             });
+    }
+
+    cadastrarAtendimento(pessoaId: number): void {
+        this._router.navigate(['/atendimento', 'novo', pessoaId]);
     }
 }
