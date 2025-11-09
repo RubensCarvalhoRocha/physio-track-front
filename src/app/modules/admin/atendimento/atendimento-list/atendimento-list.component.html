@@ -40,6 +40,18 @@
                     <mat-icon svgIcon="heroicons_outline:printer"></mat-icon>
                     <span>Relatório</span>
                 </button>
+
+                <button
+                    mat-stroked-button
+                    color="accent"
+                    class="flex items-center gap-2"
+                    (click)="gerarRelatorios()"
+                    [disabled]="!pacienteId"
+                    matTooltip="Gerar relatório de atendimentos"
+                >
+                    <mat-icon svgIcon="heroicons_outline:chip"></mat-icon>
+                    <span>IA</span>
+                </button>
             </div>
         </div>
 
@@ -47,10 +59,7 @@
         <mat-expansion-panel class="w-full mb-6 bg-white shadow-sm rounded-xl">
             <mat-expansion-panel-header>
                 <mat-panel-title>
-                    <mat-icon
-                        svgIcon="heroicons_outline:calendar-days"
-                        class="mr-2"
-                    ></mat-icon>
+                    <mat-icon matSuffix>event</mat-icon>
                     Filtrar Período
                 </mat-panel-title>
             </mat-expansion-panel-header>
@@ -108,8 +117,8 @@
             >
                 <h3 class="text-xl font-semibold text-gray-800">
                     <mat-icon
-                        svgIcon="heroicons_outline:clipboard-document-list"
-                        class="mr-2 text-blue-600"
+                        svgIcon="heroicons_outline:document-text"
+                        class="mr-2"
                     ></mat-icon>
                     Atendimentos
                 </h3>
