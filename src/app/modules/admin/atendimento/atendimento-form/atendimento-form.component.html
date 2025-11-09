@@ -6,14 +6,19 @@
     <form [formGroup]="atendimentoForm" (ngSubmit)="salvar()" class="space-y-6">
         <!-- Tipo de Atendimento -->
         <div>
-            <label class="block text-base font-medium mb-2">Tipo de Atendimento</label>
+            <label class="block text-base font-medium mb-2"
+                >Tipo de Atendimento</label
+            >
             <input
                 type="text"
                 formControlName="tipoAtendimento"
                 class="border rounded px-4 py-2 w-full text-lg"
             />
             <div
-                *ngIf="atendimentoForm.get('tipoAtendimento')?.invalid && atendimentoForm.get('tipoAtendimento')?.touched"
+                *ngIf="
+                    atendimentoForm.get('tipoAtendimento')?.invalid &&
+                    atendimentoForm.get('tipoAtendimento')?.touched
+                "
                 class="text-red-500 text-sm mt-1"
             >
                 Tipo de atendimento é obrigatório.
@@ -22,14 +27,19 @@
 
         <!-- Data do Atendimento -->
         <div>
-            <label class="block text-base font-medium mb-2">Data do Atendimento</label>
+            <label class="block text-base font-medium mb-2"
+                >Data do Atendimento</label
+            >
             <input
-                type="datetime-local"
+                type="date"
                 formControlName="dataAtendimento"
                 class="border rounded px-4 py-2 w-full text-lg"
             />
             <div
-                *ngIf="atendimentoForm.get('dataAtendimento')?.invalid && atendimentoForm.get('dataAtendimento')?.touched"
+                *ngIf="
+                    atendimentoForm.get('dataAtendimento')?.invalid &&
+                    atendimentoForm.get('dataAtendimento')?.touched
+                "
                 class="text-red-500 text-sm mt-1"
             >
                 Data do atendimento é obrigatória.
