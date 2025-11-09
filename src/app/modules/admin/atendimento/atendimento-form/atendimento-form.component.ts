@@ -80,7 +80,10 @@ export class AtendimentoFormComponent implements OnInit {
                 .subscribe({
                     next: () => {
                         notyf.success('Atendimento atualizado com sucesso!');
-                        this._router.navigate(['/atendimento']);
+                        this._router.navigate([
+                            '/atendimento/paciente',
+                            this.idPaciente,
+                        ]);
                     },
                     error: () => {
                         notyf.error('Erro ao atualizar o atendimento.');

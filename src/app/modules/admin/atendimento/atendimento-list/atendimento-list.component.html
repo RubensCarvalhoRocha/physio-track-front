@@ -6,7 +6,7 @@
         >
             <div>
                 <h2 class="text-3xl font-semibold tracking-tight leading-8">
-                    Paciente:
+                    Área do Paciente:
                     <span class="text-blue-600">{{ pacienteNome }}</span>
                 </h2>
                 <p class="text-sm text-gray-500 mt-1">
@@ -98,120 +98,148 @@
             </form>
         </mat-expansion-panel>
 
-        <!-- Tabela -->
-        <div class="overflow-x-auto w-full bg-white rounded-xl shadow-sm">
-            <table
-                mat-table
-                matSort
-                [dataSource]="atendimentosDataSource"
-                class="min-w-full bg-white rounded-xl shadow-sm border border-gray-100 text-sm"
+        <!-- Tabela de Atendimentos -->
+        <div
+            class="w-full bg-white rounded-xl shadow-sm border border-gray-100 mt-4"
+        >
+            <!-- Título da seção -->
+            <div
+                class="flex items-center justify-between px-6 py-4 border-b bg-gray-50 rounded-t-xl"
             >
-                <ng-container matColumnDef="profissional">
-                    <th
-                        mat-header-cell
-                        *matHeaderCellDef
-                        class="px-4 py-3 text-left font-semibold text-gray-700"
-                    >
-                        Profissional
-                    </th>
-                    <td
-                        mat-cell
-                        *matCellDef="let atendimento"
-                        class="px-4 py-3"
-                    >
-                        {{ atendimento.usuario.pessoa.nome }}
-                    </td>
-                </ng-container>
+                <h3 class="text-xl font-semibold text-gray-800">
+                    <mat-icon
+                        svgIcon="heroicons_outline:clipboard-document-list"
+                        class="mr-2 text-blue-600"
+                    ></mat-icon>
+                    Atendimentos
+                </h3>
+                <span class="text-sm text-gray-500"
+                    >Total:
+                    {{ atendimentosDataSource?.data?.length || 0 }}</span
+                >
+            </div>
 
-                <ng-container matColumnDef="tipoAtendimento">
-                    <th
-                        mat-header-cell
-                        *matHeaderCellDef
-                        class="px-4 py-3 text-left font-semibold text-gray-700"
-                    >
-                        Tipo
-                    </th>
-                    <td
-                        mat-cell
-                        *matCellDef="let atendimento"
-                        class="px-4 py-3"
-                    >
-                        {{ atendimento.tipoAtendimento }}
-                    </td>
-                </ng-container>
-
-                <ng-container matColumnDef="dataAtendimento">
-                    <th
-                        mat-header-cell
-                        *matHeaderCellDef
-                        class="px-4 py-3 text-left font-semibold text-gray-700"
-                    >
-                        Data
-                    </th>
-                    <td
-                        mat-cell
-                        *matCellDef="let atendimento"
-                        class="px-4 py-3"
-                    >
-                        {{ atendimento.dataAtendimento | date : "shortDate" }}
-                    </td>
-                </ng-container>
-
-                <ng-container matColumnDef="acoes">
-                    <th
-                        mat-header-cell
-                        *matHeaderCellDef
-                        class="px-4 py-3 text-center font-semibold text-gray-700"
-                    >
-                        Ações
-                    </th>
-                    <td
-                        mat-cell
-                        *matCellDef="let atendimento"
-                        class="px-4 py-3 flex items-center justify-center gap-2"
-                    >
-                        <button
-                            mat-icon-button
-                            color="primary"
-                            matTooltip="Editar Atendimento"
-                            (click)="editarAtendimento(atendimento.id)"
+            <!-- Tabela -->
+            <div class="overflow-x-auto w-full">
+                <table
+                    mat-table
+                    matSort
+                    [dataSource]="atendimentosDataSource"
+                    class="min-w-full bg-white text-sm divide-y divide-gray-100"
+                >
+                    <!-- Coluna: Profissional -->
+                    <ng-container matColumnDef="profissional">
+                        <th
+                            mat-header-cell
+                            *matHeaderCellDef
+                            class="px-4 py-3 text-left font-semibold text-gray-700"
                         >
-                            <mat-icon svgIcon="mat_outline:edit"></mat-icon>
-                        </button>
-                        <button
-                            mat-icon-button
-                            color="primary"
-                            matTooltip="Avaliar Atendimento"
-                            (click)="cadastrarAvaliacao(atendimento.id)"
+                            Profissional
+                        </th>
+                        <td
+                            mat-cell
+                            *matCellDef="let atendimento"
+                            class="px-4 py-3"
                         >
-                            <mat-icon
-                                svgIcon="heroicons_outline:document-text"
-                            ></mat-icon>
-                        </button>
-                        <button
-                            mat-icon-button
-                            color="accent"
-                            matTooltip="Gerar relatório"
-                            (click)="gerarRelatorio(atendimento.id)"
-                        >
-                            <mat-icon
-                                svgIcon="heroicons_outline:presentation-chart-line"
-                            ></mat-icon>
-                        </button>
-                    </td>
-                </ng-container>
+                            {{ atendimento.usuario.pessoa.nome }}
+                        </td>
+                    </ng-container>
 
-                <tr
-                    mat-header-row
-                    *matHeaderRowDef="atendimentosColumns"
-                    class="bg-gray-50 text-sm text-gray-700"
-                ></tr>
-                <tr
-                    mat-row
-                    *matRowDef="let row; columns: atendimentosColumns"
-                    class="hover:bg-gray-50 transition duration-150 ease-in-out"
-                ></tr>
-            </table>
+                    <!-- Coluna: Tipo -->
+                    <ng-container matColumnDef="tipoAtendimento">
+                        <th
+                            mat-header-cell
+                            *matHeaderCellDef
+                            class="px-4 py-3 text-left font-semibold text-gray-700"
+                        >
+                            Tipo
+                        </th>
+                        <td
+                            mat-cell
+                            *matCellDef="let atendimento"
+                            class="px-4 py-3"
+                        >
+                            {{ atendimento.tipoAtendimento }}
+                        </td>
+                    </ng-container>
+
+                    <!-- Coluna: Data -->
+                    <ng-container matColumnDef="dataAtendimento">
+                        <th
+                            mat-header-cell
+                            *matHeaderCellDef
+                            class="px-4 py-3 text-left font-semibold text-gray-700"
+                        >
+                            Data
+                        </th>
+                        <td
+                            mat-cell
+                            *matCellDef="let atendimento"
+                            class="px-4 py-3"
+                        >
+                            {{
+                                atendimento.dataAtendimento | date : "shortDate"
+                            }}
+                        </td>
+                    </ng-container>
+
+                    <!-- Coluna: Ações -->
+                    <ng-container matColumnDef="acoes">
+                        <th
+                            mat-header-cell
+                            *matHeaderCellDef
+                            class="px-4 py-3 text-center font-semibold text-gray-700"
+                        >
+                            Ações
+                        </th>
+                        <td
+                            mat-cell
+                            *matCellDef="let atendimento"
+                            class="px-4 py-3 flex items-center justify-center gap-2"
+                        >
+                            <button
+                                mat-icon-button
+                                color="primary"
+                                matTooltip="Editar Atendimento"
+                                (click)="editarAtendimento(atendimento.id)"
+                            >
+                                <mat-icon svgIcon="mat_outline:edit"></mat-icon>
+                            </button>
+                            <button
+                                mat-icon-button
+                                color="primary"
+                                matTooltip="Avaliar Atendimento"
+                                (click)="cadastrarAvaliacao(atendimento.id)"
+                            >
+                                <mat-icon
+                                    svgIcon="heroicons_outline:document-text"
+                                ></mat-icon>
+                            </button>
+                            <button
+                                mat-icon-button
+                                color="accent"
+                                matTooltip="Gerar Relatório"
+                                (click)="gerarRelatorio(atendimento.id)"
+                            >
+                                <mat-icon
+                                    svgIcon="heroicons_outline:presentation-chart-line"
+                                ></mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <tr
+                        mat-header-row
+                        *matHeaderRowDef="atendimentosColumns"
+                        class="bg-gray-50 text-sm text-gray-700"
+                    ></tr>
+                    <tr
+                        mat-row
+                        *matRowDef="let row; columns: atendimentosColumns"
+                        class="hover:bg-gray-50 transition duration-150 ease-in-out"
+                    ></tr>
+                </table>
+            </div>
         </div>
 
         <!-- Nenhum atendimento -->
