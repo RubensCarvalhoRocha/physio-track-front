@@ -36,3 +36,23 @@ export class AtendimentoResolver implements Resolve<Atendimento | null> {
         return this._service.obterAtendimento(idAtendimento!);
     }
 }
+
+@Injectable({
+    providedIn: 'root',
+})
+export class AtendimentosPorPacienteResolver implements Resolve<Atendimento[]> {
+    constructor(private _service: AtendimentoService) {}
+
+    resolve(
+        route: ActivatedRouteSnapshot,
+        state: RouterStateSnapshot
+    ): Observable<Atendimento[]> {
+        const idPaciente = route.paramMap.get('idPaciente');
+
+        if (idPaciente) {
+            return this._service.listarAtendimentosPorPaciente(+idPaciente);
+        }
+
+        return this._service.listarAtendimentos();
+    }
+}

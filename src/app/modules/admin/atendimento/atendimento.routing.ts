@@ -3,6 +3,7 @@ import { AtendimentoFormComponent } from './atendimento-form/atendimento-form.co
 import { Route } from '@angular/router';
 import {
     AtendimentoResolver,
+    AtendimentosPorPacienteResolver,
     AtendimentosResolver,
 } from './atendimento.resolver';
 import { AvaliacaoFormComponent } from './avaliacao-form/avaliacao-form.component';
@@ -13,6 +14,13 @@ export const atendimentoRoutes: Route[] = [
         component: AtendimentoListComponent,
         resolve: {
             AtendimentosResolver,
+        },
+    },
+    {
+        path: 'paciente/:idPaciente',
+        component: AtendimentoListComponent,
+        resolve: {
+            AtendimentosPorPacienteResolver,
         },
     },
     {

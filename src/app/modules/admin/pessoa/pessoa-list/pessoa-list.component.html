@@ -87,8 +87,7 @@
                         <button
                             mat-flat-button
                             color="primary"
-                            [routerLink]="['/atendimento']"
-                            [queryParams]="{ nome: pessoa.nome }"
+                            [routerLink]="['/atendimento/paciente', pessoa.id]"
                             [matTooltip]="'Ver Atendimentos'"
                         >
                             <mat-icon

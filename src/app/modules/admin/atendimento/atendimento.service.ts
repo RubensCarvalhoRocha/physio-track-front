@@ -12,10 +12,18 @@ import { AvaliacaoRequestDTO } from 'app/models/interfaces/AvaliacaoRequestDTO';
 export class AtendimentoService {
     private _atendimentos = new BehaviorSubject<AtendimentoCompleto[]>([]);
 
+    private _atendimentosPorPaciente = new BehaviorSubject<
+        AtendimentoCompleto[]
+    >([]);
+
     constructor(private _httpClient: HttpClient) {}
 
     get atendimentos$(): Observable<AtendimentoCompleto[]> {
         return this._atendimentos.asObservable();
+    }
+
+    get atendimentosPorPaciente$(): Observable<AtendimentoCompleto[]> {
+        return this._atendimentosPorPaciente.asObservable();
     }
 
     listarAtendimentos(): Observable<AtendimentoCompleto[]> {
@@ -80,5 +88,39 @@ export class AtendimentoService {
                 responseType: 'blob',
             }
         );
+    }
+
+    gerarRelatorios(
+        pacienteId: number,
+        dataInicial?: string
+    ): Observable<Blob> {
+        const params: any = { pacienteId };
+
+        if (dataInicial) {
+            params.dataInicial = dataInicial; // formato ISO: 'YYYY-MM-DD'
+        }
+
+        return this._httpClient.get(
+            `${environment.api}/api/avaliacao/reports`,
+            {
+                params,
+                responseType: 'blob',
+            }
+        );
+    }
+
+    listarAtendimentosPorPaciente(
+        idPaciente: number
+    ): Observable<AtendimentoCompleto[]> {
+        return this._httpClient
+            .get<AtendimentoCompleto[]>(
+                `${environment.api}/api/atendimento/atendimentos-paciente/${idPaciente}`
+            )
+            .pipe(
+                tap((response) => {
+                    // Atualiza o BehaviorSubject específico
+                    this._atendimentosPorPaciente.next(response);
+                })
+            );
     }
 }

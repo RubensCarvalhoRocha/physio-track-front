@@ -5,34 +5,69 @@
             class="flex items-center justify-between flex-wrap gap-4 w-full mb-6"
         >
             <h2 class="text-3xl font-semibold tracking-tight leading-8 m-0">
-                Atendimentos
+                Área do paciente: {{ pacienteNome }}
             </h2>
         </div>
 
-        <!-- Busca e novo -->
+        <!-- Filtros e geração de relatório -->
         <div
-            class="flex items-center justify-between w-full mb-6 gap-4 flex-wrap"
+            class="bg-white shadow-md rounded-xl p-6 mb-6 border border-gray-100"
         >
-            <div class="flex-grow">
-                <input
-                    class="bg-gray-200 text-gray-400 border border-gray-300 rounded-md w-full p-3 shadow-sm"
-                    matInput
-                    autocomplete="off"
-                    placeholder="Buscar por Paciente ou Profissional"
-                    #searchField
-                    (keyup)="filtrar(searchField.value)"
-                    readonly
-                />
-            </div>
-            <!-- <div>
-                <button
-                    mat-raised-button
-                    color="primary"
-                    [routerLink]="['novo']"
-                >
-                    Novo Atendimento
-                </button>
-            </div> -->
+            <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                <mat-icon svgIcon="heroicons_outline:calendar-days"></mat-icon>
+                Filtrar período dos atendimentos
+            </h3>
+
+            <form [formGroup]="filtroForm" class="flex flex-col gap-4">
+                <!-- Linha de filtros -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- Data inicial -->
+                    <mat-form-field appearance="outline" class="w-full">
+                        <mat-label>Data início</mat-label>
+                        <input
+                            matInput
+                            type="date"
+                            formControlName="dataInicio"
+                            [max]="filtroForm.get('dataFim')?.value"
+                        />
+                        <mat-icon matSuffix>event</mat-icon>
+                    </mat-form-field>
+
+                    <!-- Data final -->
+                    <mat-form-field appearance="outline" class="w-full">
+                        <mat-label>Data fim</mat-label>
+                        <input
+                            matInput
+                            type="date"
+                            formControlName="dataFim"
+                            [min]="filtroForm.get('dataInicio')?.value"
+                        />
+                        <mat-icon matSuffix>event</mat-icon>
+                    </mat-form-field>
+
+                    <!-- Botão de gerar -->
+                    <div class="flex items-end">
+                        <button
+                            mat-raised-button
+                            color="primary"
+                            class="w-full h-[56px] flex items-center justify-center gap-2"
+                            (click)="gerarRelatorios()"
+                            [disabled]="!pacienteId"
+                            matTooltip="Gerar relatório de atendimentos do paciente"
+                        >
+                            <mat-icon
+                                svgIcon="heroicons_outline:printer"
+                            ></mat-icon>
+                            <span>Gerar Relatório</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Dica ou separador -->
+                <div class="text-sm text-gray-500 mt-1">
+                    *Deixe as datas em branco para gerar relatório completo.
+                </div>
+            </form>
         </div>
 
         <!-- Tabela -->
@@ -43,16 +78,6 @@
                 [dataSource]="atendimentosDataSource"
                 class="min-w-full table-auto shadow-md border rounded-md bg-white"
             >
-                <!-- Paciente -->
-                <ng-container matColumnDef="paciente">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Paciente
-                    </th>
-                    <td mat-cell *matCellDef="let atendimento">
-                        {{ atendimento.paciente.nome }}
-                    </td>
-                </ng-container>
-
                 <!-- Profissional -->
                 <ng-container matColumnDef="profissional">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
