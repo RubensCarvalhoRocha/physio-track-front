@@ -38,7 +38,7 @@ export const atendimentoRoutes: Route[] = [
         },
     },
     {
-        path: 'avaliacao/novo/:idAtendimento',
+        path: 'avaliacao/novo/:idAtendimento/:idPaciente',
         component: AvaliacaoFormComponent,
     },
 ];

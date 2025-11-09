@@ -10,19 +10,21 @@ import notyf from 'app/utils/utils';
     templateUrl: './avaliacao-form.component.html',
 })
 export class AvaliacaoFormComponent implements OnInit {
+    idPaciente?: number;
     avaliacaoForm!: FormGroup;
     idAtendimento!: number;
     isEditMode = false;
     constructor(
         private fb: FormBuilder,
         private route: ActivatedRoute,
-        private router: Router,
+        private _router: Router,
         private _atendimentoService: AtendimentoService
     ) {}
 
     ngOnInit(): void {
         this.idAtendimento =
             +this.route.snapshot.paramMap.get('idAtendimento')!;
+        this.idPaciente = +this.route.snapshot.paramMap.get('idPaciente')!;
 
         this.avaliacaoForm = this.fb.group({
             altura: [null],
@@ -110,16 +112,15 @@ export class AvaliacaoFormComponent implements OnInit {
             .subscribe({
                 next: () => {
                     notyf.success('Avaliação salva com sucesso!');
-                    this.router.navigate(['/atendimento']);
+                    this._router.navigate([
+                        '/atendimento/paciente',
+                        this.idPaciente,
+                    ]);
                 },
                 error: () => {
                     notyf.error('Erro ao salvar avaliação.');
                 },
             });
-    }
-
-    cancelar(): void {
-        this.router.navigate(['/atendimento']);
     }
 
     private calcularIMC(): void {
@@ -135,5 +136,10 @@ export class AvaliacaoFormComponent implements OnInit {
         } else {
             this.avaliacaoForm.get('imc')?.setValue(null, { emitEvent: false });
         }
+    }
+
+    cancelar(): void {
+        console.log(this.idPaciente);
+        this._router.navigate(['/atendimento/paciente', this.idPaciente]);
     }
 }

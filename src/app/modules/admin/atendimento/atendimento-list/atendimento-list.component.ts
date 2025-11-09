@@ -95,11 +95,14 @@ export class AtendimentoListComponent implements OnInit {
     }
 
     cadastrarAvaliacao(atendimentoId: number): void {
+        if (!this.pacienteId) return;
+
         this._router.navigate([
             '/atendimento',
             'avaliacao',
             'novo',
             atendimentoId,
+            this.pacienteId,
         ]);
     }
 
