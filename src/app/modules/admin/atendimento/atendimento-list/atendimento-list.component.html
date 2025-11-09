@@ -1,142 +1,198 @@
 <div class="flex flex-col flex-auto w-full">
     <div class="flex flex-wrap w-full max-w-screen-xl mx-auto p-3 md:p-4">
-        <!-- Título -->
+        <!-- Header -->
         <div
-            class="flex items-center justify-between flex-wrap gap-4 w-full mb-6"
+            class="flex items-center justify-between w-full mb-6 border-b pb-3"
         >
-            <h2 class="text-3xl font-semibold tracking-tight leading-8 m-0">
-                Área do paciente: {{ pacienteNome }}
-            </h2>
+            <div>
+                <h2 class="text-3xl font-semibold tracking-tight leading-8">
+                    Paciente:
+                    <span class="text-blue-600">{{ pacienteNome }}</span>
+                </h2>
+                <p class="text-sm text-gray-500 mt-1">
+                    Visualize, registre e gere relatórios dos atendimentos deste
+                    paciente.
+                </p>
+            </div>
+
+            <div class="flex gap-2 flex-wrap">
+                <button
+                    mat-raised-button
+                    color="primary"
+                    class="flex items-center gap-2"
+                    (click)="cadastrarAtendimento(pacienteId)"
+                    matTooltip="Novo Atendimento"
+                >
+                    <mat-icon
+                        svgIcon="heroicons_outline:plus-circle"
+                    ></mat-icon>
+                    <span>Novo Atendimento</span>
+                </button>
+
+                <button
+                    mat-stroked-button
+                    color="accent"
+                    class="flex items-center gap-2"
+                    (click)="gerarRelatorios()"
+                    [disabled]="!pacienteId"
+                    matTooltip="Gerar relatório de atendimentos"
+                >
+                    <mat-icon svgIcon="heroicons_outline:printer"></mat-icon>
+                    <span>Relatório</span>
+                </button>
+            </div>
         </div>
 
-        <!-- Filtros e geração de relatório -->
-        <div
-            class="bg-white shadow-md rounded-xl p-6 mb-6 border border-gray-100"
-        >
-            <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
-                <mat-icon svgIcon="heroicons_outline:calendar-days"></mat-icon>
-                Filtrar período dos atendimentos
-            </h3>
+        <!-- Filtro de período -->
+        <mat-expansion-panel class="w-full mb-6 bg-white shadow-sm rounded-xl">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <mat-icon
+                        svgIcon="heroicons_outline:calendar-days"
+                        class="mr-2"
+                    ></mat-icon>
+                    Filtrar Período
+                </mat-panel-title>
+            </mat-expansion-panel-header>
 
-            <form [formGroup]="filtroForm" class="flex flex-col gap-4">
-                <!-- Linha de filtros -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <!-- Data inicial -->
-                    <mat-form-field appearance="outline" class="w-full">
-                        <mat-label>Data início</mat-label>
-                        <input
-                            matInput
-                            type="date"
-                            formControlName="dataInicio"
-                            [max]="filtroForm.get('dataFim')?.value"
-                        />
-                        <mat-icon matSuffix>event</mat-icon>
-                    </mat-form-field>
+            <form
+                [formGroup]="filtroForm"
+                class="p-4 grid grid-cols-1 md:grid-cols-3 gap-4"
+            >
+                <mat-form-field appearance="outline" class="w-full">
+                    <mat-label>Data inicial</mat-label>
+                    <input
+                        matInput
+                        type="date"
+                        formControlName="dataInicio"
+                        [max]="filtroForm.get('dataFim')?.value"
+                    />
+                    <mat-icon matSuffix>event</mat-icon>
+                </mat-form-field>
 
-                    <!-- Data final -->
-                    <mat-form-field appearance="outline" class="w-full">
-                        <mat-label>Data fim</mat-label>
-                        <input
-                            matInput
-                            type="date"
-                            formControlName="dataFim"
-                            [min]="filtroForm.get('dataInicio')?.value"
-                        />
-                        <mat-icon matSuffix>event</mat-icon>
-                    </mat-form-field>
+                <mat-form-field appearance="outline" class="w-full">
+                    <mat-label>Data final</mat-label>
+                    <input
+                        matInput
+                        type="date"
+                        formControlName="dataFim"
+                        [min]="filtroForm.get('dataInicio')?.value"
+                    />
+                    <mat-icon matSuffix>event</mat-icon>
+                </mat-form-field>
 
-                    <!-- Botão de gerar -->
-                    <div class="flex items-end">
-                        <button
-                            mat-raised-button
-                            color="primary"
-                            class="w-full h-[56px] flex items-center justify-center gap-2"
-                            (click)="gerarRelatorios()"
-                            [disabled]="!pacienteId"
-                            matTooltip="Gerar relatório de atendimentos do paciente"
-                        >
-                            <mat-icon
-                                svgIcon="heroicons_outline:printer"
-                            ></mat-icon>
-                            <span>Gerar Relatório</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Dica ou separador -->
-                <div class="text-sm text-gray-500 mt-1">
-                    *Deixe as datas em branco para gerar relatório completo.
+                <div class="flex items-end">
+                    <button
+                        mat-flat-button
+                        color="primary"
+                        class="w-full h-[56px] flex items-center justify-center gap-2"
+                        (click)="gerarRelatorios()"
+                        [disabled]="!pacienteId"
+                    >
+                        <mat-icon
+                            svgIcon="heroicons_outline:document-text"
+                        ></mat-icon>
+                        <span>Aplicar Filtro</span>
+                    </button>
                 </div>
             </form>
-        </div>
+        </mat-expansion-panel>
 
         <!-- Tabela -->
-        <div class="overflow-x-auto w-full">
+        <div class="overflow-x-auto w-full bg-white rounded-xl shadow-sm">
             <table
                 mat-table
                 matSort
                 [dataSource]="atendimentosDataSource"
-                class="min-w-full table-auto shadow-md border rounded-md bg-white"
+                class="min-w-full bg-white rounded-xl shadow-sm border border-gray-100 text-sm"
             >
-                <!-- Profissional -->
                 <ng-container matColumnDef="profissional">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="px-4 py-3 text-left font-semibold text-gray-700"
+                    >
                         Profissional
                     </th>
-                    <td mat-cell *matCellDef="let atendimento">
+                    <td
+                        mat-cell
+                        *matCellDef="let atendimento"
+                        class="px-4 py-3"
+                    >
                         {{ atendimento.usuario.pessoa.nome }}
                     </td>
                 </ng-container>
 
-                <!-- Tipo -->
                 <ng-container matColumnDef="tipoAtendimento">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="px-4 py-3 text-left font-semibold text-gray-700"
+                    >
                         Tipo
                     </th>
-                    <td mat-cell *matCellDef="let atendimento">
+                    <td
+                        mat-cell
+                        *matCellDef="let atendimento"
+                        class="px-4 py-3"
+                    >
                         {{ atendimento.tipoAtendimento }}
                     </td>
                 </ng-container>
 
-                <!-- Data -->
                 <ng-container matColumnDef="dataAtendimento">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="px-4 py-3 text-left font-semibold text-gray-700"
+                    >
                         Data
                     </th>
-                    <td mat-cell *matCellDef="let atendimento">
-                        {{ atendimento.dataAtendimento | date : "short" }}
+                    <td
+                        mat-cell
+                        *matCellDef="let atendimento"
+                        class="px-4 py-3"
+                    >
+                        {{ atendimento.dataAtendimento | date : "shortDate" }}
                     </td>
                 </ng-container>
 
-                <!-- Ações -->
                 <ng-container matColumnDef="acoes">
-                    <th mat-header-cell *matHeaderCellDef>Ações</th>
-                    <td mat-cell *matCellDef="let atendimento">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="px-4 py-3 text-center font-semibold text-gray-700"
+                    >
+                        Ações
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let atendimento"
+                        class="px-4 py-3 flex items-center justify-center gap-2"
+                    >
                         <button
-                            mat-flat-button
+                            mat-icon-button
                             color="primary"
+                            matTooltip="Editar Atendimento"
                             (click)="editarAtendimento(atendimento.id)"
-                            [matTooltip]="'Editar atendimento'"
                         >
                             <mat-icon svgIcon="mat_outline:edit"></mat-icon>
                         </button>
-
                         <button
-                            mat-flat-button
+                            mat-icon-button
                             color="primary"
+                            matTooltip="Avaliar Atendimento"
                             (click)="cadastrarAvaliacao(atendimento.id)"
-                            [matTooltip]="'Realizar Avaliação'"
                         >
                             <mat-icon
                                 svgIcon="heroicons_outline:document-text"
                             ></mat-icon>
                         </button>
-
                         <button
-                            mat-flat-button
-                            color="primary"
+                            mat-icon-button
+                            color="accent"
+                            matTooltip="Gerar relatório"
                             (click)="gerarRelatorio(atendimento.id)"
-                            [matTooltip]="'Gerar Relatório'"
                         >
                             <mat-icon
                                 svgIcon="heroicons_outline:presentation-chart-line"
@@ -145,20 +201,26 @@
                     </td>
                 </ng-container>
 
-                <tr mat-header-row *matHeaderRowDef="atendimentosColumns"></tr>
+                <tr
+                    mat-header-row
+                    *matHeaderRowDef="atendimentosColumns"
+                    class="bg-gray-50 text-sm text-gray-700"
+                ></tr>
                 <tr
                     mat-row
                     *matRowDef="let row; columns: atendimentosColumns"
+                    class="hover:bg-gray-50 transition duration-150 ease-in-out"
                 ></tr>
             </table>
         </div>
 
         <!-- Nenhum atendimento -->
         <div
-            class="p-5 bg-white border border-t-0 border-l-0 border-r-0 border-b-1 w-full"
+            class="p-5 text-center bg-white border border-t-0 rounded-b-xl w-full text-gray-600"
             *ngIf="!atendimentosDataSource?.data?.length"
         >
-            <label>Nenhum atendimento encontrado.</label>
+            <mat-icon class="mr-2 text-gray-500">info</mat-icon>
+            Nenhum atendimento encontrado para este paciente.
         </div>
 
         <!-- Paginador -->

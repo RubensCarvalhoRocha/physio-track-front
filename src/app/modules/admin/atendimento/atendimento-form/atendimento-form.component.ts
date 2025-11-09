@@ -45,7 +45,7 @@ export class AtendimentoFormComponent implements OnInit {
                     .obterAtendimento(this.idAtendimento)
                     .subscribe((atendimento) => {
                         this.atendimento = atendimento;
-
+                        this.idPaciente = atendimento.paciente?.id;
                         const dataAtendimento = atendimento.dataAtendimento
                             ? new Date(
                                   new Date(
@@ -92,7 +92,10 @@ export class AtendimentoFormComponent implements OnInit {
                 .subscribe({
                     next: () => {
                         notyf.success('Atendimento cadastrado com sucesso!');
-                        this._router.navigate(['/atendimento/paciente', this.idPaciente]);
+                        this._router.navigate([
+                            '/atendimento/paciente',
+                            this.idPaciente,
+                        ]);
                     },
                     error: () => {
                         notyf.error('Erro ao cadastrar o atendimento.');
@@ -102,6 +105,7 @@ export class AtendimentoFormComponent implements OnInit {
     }
 
     cancelar(): void {
+        console.log(this.idPaciente);
         this._router.navigate(['/atendimento/paciente', this.idPaciente]);
     }
 }
