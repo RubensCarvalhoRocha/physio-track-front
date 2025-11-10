@@ -4,28 +4,36 @@
     </h2>
 
     <form [formGroup]="avaliacaoForm" (ngSubmit)="salvar()" class="space-y-6">
-
         <mat-accordion multi>
-            <!-- Dados Gerais -->
+            <!-- 🩺 ANAMNESE (Dados Gerais) -->
             <mat-expansion-panel [expanded]="true">
                 <mat-expansion-panel-header>
-                    <mat-panel-title> Dados Gerais </mat-panel-title>
+                    <mat-panel-title> Anamnese </mat-panel-title>
                 </mat-expansion-panel-header>
 
                 <div class="grid grid-cols-4 gap-4 p-4">
                     <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>Altura</mat-label>
-                        <input matInput type="number" formControlName="altura" />
+                        <mat-label>Altura (cm)</mat-label>
+                        <input
+                            matInput
+                            type="number"
+                            formControlName="altura"
+                        />
                     </mat-form-field>
 
                     <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>Peso</mat-label>
+                        <mat-label>Peso (kg)</mat-label>
                         <input matInput type="number" formControlName="peso" />
                     </mat-form-field>
 
                     <mat-form-field appearance="fill" class="w-full">
                         <mat-label>IMC</mat-label>
-                        <input matInput type="number" formControlName="imc" readonly />
+                        <input
+                            matInput
+                            type="number"
+                            formControlName="imc"
+                            readonly
+                        />
                     </mat-form-field>
 
                     <mat-form-field appearance="fill" class="w-full">
@@ -35,216 +43,262 @@
 
                     <mat-form-field appearance="fill" class="w-full">
                         <mat-label>Diagnóstico Médico</mat-label>
-                        <input matInput type="text" formControlName="diagnosticoMedico" />
+                        <input
+                            matInput
+                            type="text"
+                            formControlName="diagnosticoMedico"
+                        />
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="w-full">
+                        <mat-label>Queixas</mat-label>
+                        <input matInput type="text" formControlName="queixas" />
                     </mat-form-field>
 
                     <mat-form-field appearance="fill" class="w-full">
                         <mat-label>Histórico de Saúde</mat-label>
-                        <input matInput type="text" formControlName="historicoSaude" />
+                        <input
+                            matInput
+                            type="text"
+                            formControlName="historicoSaude"
+                        />
                     </mat-form-field>
 
                     <mat-form-field appearance="fill" class="w-full">
                         <mat-label>Medicamentos</mat-label>
-                        <input matInput type="text" formControlName="medicamentos" />
+                        <input
+                            matInput
+                            type="text"
+                            formControlName="medicamentos"
+                        />
                     </mat-form-field>
 
                     <mat-form-field appearance="fill" class="w-full">
                         <mat-label>Cirurgias</mat-label>
-                        <input matInput type="text" formControlName="cirurgia" />
+                        <input
+                            matInput
+                            type="text"
+                            formControlName="cirurgia"
+                        />
                     </mat-form-field>
 
                     <mat-form-field appearance="fill" class="w-full">
                         <mat-label>Tratamentos Anteriores</mat-label>
-                        <input matInput type="text" formControlName="tratamentoAnterior" />
+                        <input
+                            matInput
+                            type="text"
+                            formControlName="tratamentoAnterior"
+                        />
                     </mat-form-field>
 
                     <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>Exame de Imagem</mat-label>
-                        <input matInput type="text" formControlName="exameImagem" />
+                        <mat-label>Exames de Imagem</mat-label>
+                        <input
+                            matInput
+                            type="text"
+                            formControlName="exameImagem"
+                        />
                     </mat-form-field>
 
                     <mat-form-field appearance="fill" class="w-full">
                         <mat-label>Objetivo do Tratamento</mat-label>
-                        <input matInput type="text" formControlName="objTratamento" />
+                        <input
+                            matInput
+                            type="text"
+                            formControlName="objTratamento"
+                        />
                     </mat-form-field>
                 </div>
 
                 <div class="p-4">
                     <mat-form-field appearance="fill" class="w-full">
                         <mat-label>Observações Gerais</mat-label>
-                        <textarea matInput formControlName="obsGerais" rows="4"></textarea>
+                        <textarea
+                            matInput
+                            formControlName="obsGerais"
+                            rows="4"
+                        ></textarea>
                     </mat-form-field>
                 </div>
             </mat-expansion-panel>
 
-            <!-- Perimetria -->
+            <!-- 📏 PERIMETRIA -->
             <mat-expansion-panel>
                 <mat-expansion-panel-header>
                     <mat-panel-title> Perimetria </mat-panel-title>
                 </mat-expansion-panel-header>
 
                 <div class="grid grid-cols-4 gap-4 p-4">
-                    <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>Medida 1D</mat-label>
-                        <input matInput type="number" formControlName="perimetriaMedida1D" />
-                    </mat-form-field>
-
-                    <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>Medida 2D</mat-label>
-                        <input matInput type="number" formControlName="perimetriaMedida2D" />
-                    </mat-form-field>
-
-                    <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>Medida 3D</mat-label>
-                        <input matInput type="number" formControlName="perimetriaMedida3D" />
-                    </mat-form-field>
-
-                    <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>Panturrilha D</mat-label>
-                        <input matInput type="number" formControlName="perimetriaPanturrilhaD" />
-                    </mat-form-field>
-
-                    <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>Ass. Medida 1E</mat-label>
-                        <input matInput type="number" formControlName="perimetriaAssimetriaMedida1E" />
-                    </mat-form-field>
-
-                    <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>Ass. Medida 2E</mat-label>
-                        <input matInput type="number" formControlName="perimetriaAssimetriaMedida2E" />
-                    </mat-form-field>
-
-                    <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>Ass. Medida 3E</mat-label>
-                        <input matInput type="number" formControlName="perimetriaAssimetriaMedida3E" />
-                    </mat-form-field>
-
-                    <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>Panturrilha E</mat-label>
-                        <input matInput type="number" formControlName="perimetriaPanturrilhaE" />
-                    </mat-form-field>
-
-                    <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>Ass. 1</mat-label>
-                        <input matInput type="number" formControlName="perimetriaMedidaAss1" />
-                    </mat-form-field>
-
-                    <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>Ass. 2</mat-label>
-                        <input matInput type="number" formControlName="perimetriaMedidaAss2" />
-                    </mat-form-field>
-
-                    <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>Ass. 3</mat-label>
-                        <input matInput type="number" formControlName="perimetriaMedidaAss3" />
-                    </mat-form-field>
-
-                    <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>Panturrilha Ass.</mat-label>
-                        <input matInput type="number" formControlName="perimetriaPanturrilhaAss" />
+                    <mat-form-field
+                        appearance="fill"
+                        class="w-full"
+                        *ngFor="let campo of perimetriaCampos"
+                    >
+                        <mat-label>{{ campo.label }}</mat-label>
+                        <input
+                            matInput
+                            type="number"
+                            [formControlName]="campo.nome"
+                        />
                     </mat-form-field>
                 </div>
             </mat-expansion-panel>
 
-            <!-- Mobilidade e Força -->
+            <!-- 🦵 LUNGE -->
             <mat-expansion-panel>
                 <mat-expansion-panel-header>
-                    <mat-panel-title> Mobilidade e Força </mat-panel-title>
+                    <mat-panel-title> Lunge Test </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div class="grid grid-cols-3 gap-4 p-4">
+                    <mat-form-field
+                        appearance="fill"
+                        class="w-full"
+                        *ngFor="let campo of lungeCampos"
+                    >
+                        <mat-label>{{ campo.label }}</mat-label>
+                        <input
+                            matInput
+                            type="number"
+                            [formControlName]="campo.nome"
+                        />
+                    </mat-form-field>
+                </div>
+            </mat-expansion-panel>
+
+            <!-- 🦾 ROTADORES DE QUADRIL -->
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        ADM - Rotadores de Quadril
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div class="grid grid-cols-3 gap-4 p-4">
+                    <mat-form-field
+                        appearance="fill"
+                        class="w-full"
+                        *ngFor="let campo of quadrilCampos"
+                    >
+                        <mat-label>{{ campo.label }}</mat-label>
+                        <input
+                            matInput
+                            type="number"
+                            [formControlName]="campo.nome"
+                        />
+                    </mat-form-field>
+                </div>
+            </mat-expansion-panel>
+
+            <!-- 🦿 JOELHO -->
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Extensão / Flexão de Joelho
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div class="grid grid-cols-3 gap-4 p-4">
+                    <mat-form-field
+                        appearance="fill"
+                        class="w-full"
+                        *ngFor="let campo of joelhoCampos"
+                    >
+                        <mat-label>{{ campo.label }}</mat-label>
+                        <input
+                            matInput
+                            type="number"
+                            [formControlName]="campo.nome"
+                        />
+                    </mat-form-field>
+                </div>
+            </mat-expansion-panel>
+
+            <!-- 🦶 SINGLE HOP -->
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title> Single Hop Test </mat-panel-title>
                 </mat-expansion-panel-header>
 
                 <div class="grid grid-cols-4 gap-4 p-4">
-                    <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>Lunge D</mat-label>
-                        <input matInput type="number" formControlName="lungeD" />
-                    </mat-form-field>
-
-                    <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>Lunge E</mat-label>
-                        <input matInput type="number" formControlName="lungeE" />
-                    </mat-form-field>
-
-                    <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>Lunge Assimetria</mat-label>
-                        <input matInput type="number" formControlName="lungeAss" />
-                    </mat-form-field>
-
-                    <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>Rot. Quad. Int. D</mat-label>
-                        <input matInput type="number" formControlName="rotQuadInterD" />
-                    </mat-form-field>
-
-                    <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>Rot. Quad. Int. E</mat-label>
-                        <input matInput type="number" formControlName="rotQuadInterE" />
-                    </mat-form-field>
-
-                    <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>Rot. Quad. Int. Ass.</mat-label>
-                        <input matInput type="number" formControlName="rotQuadInterAss" />
-                    </mat-form-field>
-
-                    <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>Rot. Quad. Ext. D</mat-label>
-                        <input matInput type="number" formControlName="rotQuadExterD" />
-                    </mat-form-field>
-
-                    <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>Rot. Quad. Ext. E</mat-label>
-                        <input matInput type="number" formControlName="rotQuadExterE" />
-                    </mat-form-field>
-
-                    <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>Rot. Quad. Ext. Ass.</mat-label>
-                        <input matInput type="number" formControlName="rotQuadExterAss" />
-                    </mat-form-field>
-
-                    <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>Ext. Joelho D</mat-label>
-                        <input matInput type="number" formControlName="extJoelhoD" />
-                    </mat-form-field>
-
-                    <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>Ext. Joelho E</mat-label>
-                        <input matInput type="number" formControlName="extJoelhoE" />
-                    </mat-form-field>
-
-                    <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>Ext. Joelho Ass.</mat-label>
-                        <input matInput type="number" formControlName="extJoelhoAss" />
-                    </mat-form-field>
-
-                    <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>Flex. Joelho D</mat-label>
-                        <input matInput type="number" formControlName="flexJoelhoD" />
-                    </mat-form-field>
-
-                    <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>Flex. Joelho E</mat-label>
-                        <input matInput type="number" formControlName="flexJoelhoE" />
-                    </mat-form-field>
-
-                    <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>Flex. Joelho Ass.</mat-label>
-                        <input matInput type="number" formControlName="flexJoelhoAss" />
+                    <mat-form-field
+                        appearance="fill"
+                        class="w-full"
+                        *ngFor="let campo of singleHopCampos"
+                    >
+                        <mat-label>{{ campo.label }}</mat-label>
+                        <input
+                            matInput
+                            type="number"
+                            [formControlName]="campo.nome"
+                        />
                     </mat-form-field>
                 </div>
             </mat-expansion-panel>
 
-            <!-- SLB Test -->
+            <!-- 🏃 SIDE HOP -->
             <mat-expansion-panel>
                 <mat-expansion-panel-header>
-                    <mat-panel-title> SLB Test </mat-panel-title>
+                    <mat-panel-title> Side Hop Test </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div class="grid grid-cols-4 gap-4 p-4">
+                    <mat-form-field
+                        appearance="fill"
+                        class="w-full"
+                        *ngFor="let campo of sideHopCampos"
+                    >
+                        <mat-label>{{ campo.label }}</mat-label>
+                        <input
+                            matInput
+                            type="number"
+                            [formControlName]="campo.nome"
+                        />
+                    </mat-form-field>
+                </div>
+            </mat-expansion-panel>
+
+            <!-- 🧍 SINGLE LEG BRIDGE -->
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title> Single Leg Bridge </mat-panel-title>
                 </mat-expansion-panel-header>
 
                 <div class="grid grid-cols-2 gap-4 p-4">
                     <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>SLB Test D</mat-label>
-                        <input matInput type="number" formControlName="slbTestD" />
+                        <mat-label>SLB Test (Direita)</mat-label>
+                        <input
+                            matInput
+                            type="number"
+                            formControlName="slbTestD"
+                        />
                     </mat-form-field>
 
                     <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>SLB Test E</mat-label>
-                        <input matInput type="number" formControlName="slbTestE" />
+                        <mat-label>SLB Test (Esquerda)</mat-label>
+                        <input
+                            matInput
+                            type="number"
+                            formControlName="slbTestE"
+                        />
+                    </mat-form-field>
+                </div>
+            </mat-expansion-panel>
+
+            <!-- 🗒️ OBSERVAÇÃO FINAL -->
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title> Observação Final </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div class="p-4">
+                    <mat-form-field appearance="fill" class="w-full">
+                        <mat-label>Observação</mat-label>
+                        <textarea
+                            matInput
+                            formControlName="observacao"
+                            rows="4"
+                        ></textarea>
                     </mat-form-field>
                 </div>
             </mat-expansion-panel>
@@ -252,7 +306,9 @@
 
         <!-- Botões -->
         <div class="flex justify-end gap-4 pt-6 border-t">
-            <button type="button" mat-stroked-button (click)="cancelar()">Cancelar</button>
+            <button type="button" mat-stroked-button (click)="cancelar()">
+                Cancelar
+            </button>
             <button
                 type="submit"
                 mat-flat-button
