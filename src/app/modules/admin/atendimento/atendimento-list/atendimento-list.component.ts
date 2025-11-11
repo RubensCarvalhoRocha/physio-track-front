@@ -8,6 +8,8 @@ import { MatSort } from '@angular/material/sort';
 import notyf from 'app/utils/utils';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { switchMap } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { RelatorioModalComponent } from '../relatorio-modal/relatorio-modal.component';
 
 @Component({
     selector: 'app-atendimento-list',
@@ -35,7 +37,8 @@ export class AtendimentoListComponent implements OnInit {
         private _atendimentoService: AtendimentoService,
         private _router: Router,
         private _route: ActivatedRoute,
-        private _fb: FormBuilder
+        private _fb: FormBuilder,
+        private _dialog: MatDialog
     ) {}
 
     ngOnInit(): void {
@@ -171,5 +174,21 @@ export class AtendimentoListComponent implements OnInit {
 
     cadastrarAtendimento(pessoaId: number): void {
         this._router.navigate(['/atendimento', 'novo', pessoaId]);
+    }
+
+    abrirModalRelatorio(): void {
+        if (!this.pacienteId) {
+            notyf.error('Paciente não identificado.');
+            return;
+        }
+
+        this._dialog.open(RelatorioModalComponent, {
+            width: '500px',
+            disableClose: true,
+            data: {
+                pacienteId: this.pacienteId,
+                pacienteNome: this.pacienteNome,
+            },
+        });
     }
 }

@@ -1,0 +1,43 @@
+<h2 mat-dialog-title class="text-lg font-semibold">
+    Relatório de Atendimentos - {{ pacienteNome }}
+</h2>
+
+<form
+    [formGroup]="filtroForm"
+    class="p-4 grid grid-cols-1 md:grid-cols-2 gap-4"
+>
+    <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Data inicial</mat-label>
+        <input
+            matInput
+            type="date"
+            formControlName="dataInicio"
+            [max]="today"
+        />
+        <mat-icon matSuffix>event</mat-icon>
+    </mat-form-field>
+
+    <div class="flex items-end">
+        <button
+            mat-flat-button
+            color="primary"
+            class="w-full h-[56px] flex items-center justify-center gap-2"
+            (click)="gerarRelatorios()"
+        >
+            <mat-icon svgIcon="heroicons_outline:document-text"></mat-icon>
+            <span>Gerar Relatório</span>
+        </button>
+    </div>
+</form>
+
+<div class="flex justify-end px-4 pb-4">
+    <button
+        mat-stroked-button
+        color="warn"
+        (click)="fechar()"
+        class="flex items-center gap-2"
+    >
+        <mat-icon>close</mat-icon>
+        <span>Fechar</span>
+    </button>
+</div>

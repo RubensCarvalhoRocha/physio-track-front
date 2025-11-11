@@ -5,12 +5,15 @@
             class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 w-full mb-6 border-b pb-3"
         >
             <div class="text-center sm:text-left">
-                <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight leading-8">
+                <h2
+                    class="text-2xl sm:text-3xl font-semibold tracking-tight leading-8"
+                >
                     Área do Paciente:
                     <span class="text-blue-600">{{ pacienteNome }}</span>
                 </h2>
                 <p class="text-sm text-gray-500 mt-1">
-                    Visualize, registre e gere relatórios dos atendimentos deste paciente.
+                    Visualize, registre e gere relatórios dos atendimentos deste
+                    paciente.
                 </p>
             </div>
 
@@ -22,7 +25,9 @@
                     (click)="cadastrarAtendimento(pacienteId)"
                     matTooltip="Novo Atendimento"
                 >
-                    <mat-icon svgIcon="heroicons_outline:plus-circle"></mat-icon>
+                    <mat-icon
+                        svgIcon="heroicons_outline:plus-circle"
+                    ></mat-icon>
                     <span>Novo Atendimento</span>
                 </button>
 
@@ -30,7 +35,7 @@
                     mat-stroked-button
                     color="accent"
                     class="flex items-center gap-2"
-                    (click)="gerarRelatorios()"
+                    (click)="abrirModalRelatorio()"
                     [disabled]="!pacienteId"
                     matTooltip="Gerar Relatório"
                 >
@@ -52,56 +57,6 @@
             </div>
         </div>
 
-        <!-- Filtro de período -->
-        <mat-expansion-panel class="w-full mb-6 bg-white shadow-sm rounded-xl">
-            <mat-expansion-panel-header>
-                <mat-panel-title class="flex items-center">
-                    <mat-icon matSuffix class="mr-2">event</mat-icon>
-                    Filtrar Atendimento
-                </mat-panel-title>
-            </mat-expansion-panel-header>
-
-            <form
-                [formGroup]="filtroForm"
-                class="p-4 grid grid-cols-1 md:grid-cols-3 gap-4"
-            >
-                <mat-form-field appearance="outline" class="w-full">
-                    <mat-label>Data inicial</mat-label>
-                    <input
-                        matInput
-                        type="date"
-                        formControlName="dataInicio"
-                        [max]="filtroForm.get('dataFim')?.value"
-                    />
-                    <mat-icon matSuffix>event</mat-icon>
-                </mat-form-field>
-
-                <mat-form-field appearance="outline" class="w-full">
-                    <mat-label>Data final</mat-label>
-                    <input
-                        matInput
-                        type="date"
-                        formControlName="dataFim"
-                        [min]="filtroForm.get('dataInicio')?.value"
-                    />
-                    <mat-icon matSuffix>event</mat-icon>
-                </mat-form-field>
-
-                <div class="flex items-end">
-                    <button
-                        mat-flat-button
-                        color="primary"
-                        class="w-full h-[56px] flex items-center justify-center gap-2"
-                        (click)="gerarRelatorios()"
-                        [disabled]="!pacienteId"
-                    >
-                        <mat-icon svgIcon="heroicons_outline:document-text"></mat-icon>
-                        <span>Aplicar Filtro</span>
-                    </button>
-                </div>
-            </form>
-        </mat-expansion-panel>
-
         <!-- 📋 Tabela (somente em telas médias e grandes) -->
         <div
             class="w-full bg-white rounded-xl shadow-sm border border-gray-100 mt-4 hidden sm:block"
@@ -110,7 +65,9 @@
             <div
                 class="flex items-center justify-between px-6 py-4 border-b bg-gray-50 rounded-t-xl"
             >
-                <h3 class="text-xl font-semibold text-gray-800 flex items-center">
+                <h3
+                    class="text-xl font-semibold text-gray-800 flex items-center"
+                >
                     <mat-icon
                         svgIcon="heroicons_outline:document-text"
                         class="mr-2"
@@ -118,7 +75,8 @@
                     Atendimentos
                 </h3>
                 <span class="text-sm text-gray-500"
-                    >Total: {{ atendimentosDataSource?.data?.length || 0 }}</span
+                    >Total:
+                    {{ atendimentosDataSource?.data?.length || 0 }}</span
                 >
             </div>
 
@@ -139,7 +97,11 @@
                         >
                             Profissional
                         </th>
-                        <td mat-cell *matCellDef="let atendimento" class="px-4 py-3">
+                        <td
+                            mat-cell
+                            *matCellDef="let atendimento"
+                            class="px-4 py-3"
+                        >
                             {{ atendimento.usuario.pessoa.nome }}
                         </td>
                     </ng-container>
@@ -153,7 +115,11 @@
                         >
                             Tipo
                         </th>
-                        <td mat-cell *matCellDef="let atendimento" class="px-4 py-3">
+                        <td
+                            mat-cell
+                            *matCellDef="let atendimento"
+                            class="px-4 py-3"
+                        >
                             {{ atendimento.tipoAtendimento }}
                         </td>
                     </ng-container>
@@ -167,8 +133,14 @@
                         >
                             Data
                         </th>
-                        <td mat-cell *matCellDef="let atendimento" class="px-4 py-3">
-                            {{ atendimento.dataAtendimento | date: 'shortDate' }}
+                        <td
+                            mat-cell
+                            *matCellDef="let atendimento"
+                            class="px-4 py-3"
+                        >
+                            {{
+                                atendimento.dataAtendimento | date : "shortDate"
+                            }}
                         </td>
                     </ng-container>
 
@@ -201,7 +173,9 @@
                                 matTooltip="Avaliar Atendimento"
                                 (click)="cadastrarAvaliacao(atendimento.id)"
                             >
-                                <mat-icon svgIcon="heroicons_outline:document-text"></mat-icon>
+                                <mat-icon
+                                    svgIcon="heroicons_outline:document-text"
+                                ></mat-icon>
                             </button>
 
                             <button
@@ -245,7 +219,7 @@
                         {{ atendimento.tipoAtendimento }}
                     </h3>
                     <span class="text-sm text-gray-500">{{
-                        atendimento.dataAtendimento | date: 'shortDate'
+                        atendimento.dataAtendimento | date : "shortDate"
                     }}</span>
                 </div>
 
@@ -270,7 +244,9 @@
                         matTooltip="Avaliar Atendimento"
                         (click)="cadastrarAvaliacao(atendimento.id)"
                     >
-                        <mat-icon svgIcon="heroicons_outline:document-text"></mat-icon>
+                        <mat-icon
+                            svgIcon="heroicons_outline:document-text"
+                        ></mat-icon>
                     </button>
 
                     <button

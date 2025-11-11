@@ -7,9 +7,11 @@ import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { AvaliacaoFormComponent } from './avaliacao-form/avaliacao-form.component';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { RelatorioModalComponent } from './relatorio-modal/relatorio-modal.component';
+import { AnaliseModalComponent } from './analise-modal/analise-modal.component';
 
 @NgModule({
-    declarations: [AtendimentoFormComponent, AtendimentoListComponent, AvaliacaoFormComponent],
+    declarations: [AtendimentoFormComponent, AtendimentoListComponent, AvaliacaoFormComponent, RelatorioModalComponent, AnaliseModalComponent],
     imports: [
         CommonModule,
         RouterModule.forChild(atendimentoRoutes),
