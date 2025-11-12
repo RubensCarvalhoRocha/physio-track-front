@@ -10,6 +10,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { switchMap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { RelatorioModalComponent } from '../relatorio-modal/relatorio-modal.component';
+import { AnaliseModalComponent } from '../analise-modal/analise-modal.component';
 
 @Component({
     selector: 'app-atendimento-list',
@@ -184,6 +185,22 @@ export class AtendimentoListComponent implements OnInit {
 
         this._dialog.open(RelatorioModalComponent, {
             width: '500px',
+            disableClose: true,
+            data: {
+                pacienteId: this.pacienteId,
+                pacienteNome: this.pacienteNome,
+            },
+        });
+    }
+
+    abrirModalAnalise(): void {
+        if (!this.pacienteId) {
+            notyf.error('Paciente não identificado.');
+            return;
+        }
+
+        this._dialog.open(AnaliseModalComponent, {
+            width: '900px',
             disableClose: true,
             data: {
                 pacienteId: this.pacienteId,

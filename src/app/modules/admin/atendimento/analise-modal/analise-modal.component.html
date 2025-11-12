@@ -1,1 +1,44 @@
-<p>analise-modal works!</p>
+<h2 mat-dialog-title class="font-semibold text-lg text-gray-800">
+    Análise do histórico - {{ pacienteNome }}
+</h2>
+
+<mat-dialog-content class="flex flex-col gap-4">
+    <p class="text-sm text-gray-600">
+        Clique em <strong>“Gerar Análise”</strong> para obter o resumo
+        automático do histórico do paciente.
+    </p>
+
+    <!-- Caixa de texto para exibir o resultado -->
+    <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Resultado da análise</mat-label>
+        <textarea
+            matInput
+            [(ngModel)]="analiseTexto"
+            rows="12"
+            placeholder="A análise será exibida aqui..."
+            readonly
+        ></textarea>
+    </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="mt-4">
+    <button
+        mat-stroked-button
+        color="primary"
+        (click)="gerarAnalise()"
+        [disabled]="carregando"
+    >
+        <mat-icon
+            *ngIf="!carregando"
+            svgIcon="heroicons_outline:sparkles"
+        ></mat-icon>
+        <mat-spinner *ngIf="carregando" [diameter]="20"></mat-spinner>
+        <span *ngIf="!carregando">Gerar Análise</span>
+        <span *ngIf="carregando">Gerando...</span>
+    </button>
+
+    <button mat-button color="warn" (click)="fechar()">
+        <mat-icon svgIcon="heroicons_outline:x-mark"></mat-icon>
+        <span>Fechar</span>
+    </button>
+</mat-dialog-actions>

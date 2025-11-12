@@ -123,4 +123,12 @@ export class AtendimentoService {
                 })
             );
     }
+
+    gerarAnalise(pacienteId: number): Observable<string> {
+        return this._httpClient.post(
+            `${environment.api}/api/chat/gemini/${pacienteId}`,
+            {}, // corpo vazio, pois o endpoint não recebe body
+            { responseType: 'text' } // força o retorno como texto (string)
+        );
+    }
 }
