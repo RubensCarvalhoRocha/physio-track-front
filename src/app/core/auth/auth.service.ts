@@ -70,17 +70,18 @@ export class AuthService {
             .post(`${environment.api}/auth/login`, credentials)
             .pipe(
                 switchMap((response: any) => {
-                    // Store the access token in the local storage
+                    // Store token
                     this.accessToken = response.token;
-
-                    // Set the authenticated flag to true
                     this._authenticated = true;
 
-                    // Store the user on the user service
-                    this._userService.user = response.user;
+                    // Agora buscar o usuário logado (/auth/me)
+                    return this._httpClient.get(`${environment.api}/auth/me`);
+                }),
+                switchMap((user: any) => {
+                    // Armazena o usuário no serviço global
+                    this._userService.user = user;
 
-                    // Return a new observable with the response
-                    return of(response);
+                    return of(user);
                 })
             );
     }
@@ -89,35 +90,24 @@ export class AuthService {
      * Sign in using the access token
      */
     signInUsingToken(): Observable<any> {
-        // Sign in using the token
         return this._httpClient
-            .post('api/auth/sign-in-with-token', {
+            .post(`${environment.api}/auth/sign-in-with-token`, {
                 accessToken: this.accessToken,
             })
             .pipe(
-                catchError(() =>
-                    // Return false
-                    of(false)
-                ),
+                catchError(() => of(false)),
                 switchMap((response: any) => {
-                    // Replace the access token with the new one if it's available on
-                    // the response object.
-                    //
-                    // This is an added optional step for better security. Once you sign
-                    // in using the token, you should generate a new one on the server
-                    // side and attach it to the response object. Then the following
-                    // piece of code can replace the token with the refreshed one.
                     if (response.accessToken) {
                         this.accessToken = response.accessToken;
                     }
 
-                    // Set the authenticated flag to true
                     this._authenticated = true;
 
-                    // Store the user on the user service
-                    this._userService.user = response.user;
-
-                    // Return true
+                    // Agora carregar /auth/me
+                    return this._httpClient.get(`${environment.api}/auth/me`);
+                }),
+                switchMap((user: any) => {
+                    this._userService.user = user;
                     return of(true);
                 })
             );
