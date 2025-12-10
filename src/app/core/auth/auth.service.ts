@@ -78,6 +78,7 @@ export class AuthService {
                     return this._httpClient.get(`${environment.api}/auth/me`);
                 }),
                 switchMap((user: any) => {
+                    console.log('USER RETORNADO APOS LOGIN',user);
                     // Armazena o usuário no serviço global
                     this._userService.user = user;
 

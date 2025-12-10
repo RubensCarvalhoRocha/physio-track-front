@@ -2,6 +2,7 @@ import { PessoaListComponent } from './pessoa-list/pessoa-list.component';
 import { PessoaFormComponent } from './pessoa-form/pessoa-form.component';
 import { Route } from '@angular/router';
 import { PessoaResolver, PessoasResolver } from './pessoa.resolver';
+import { PacienteGuard } from 'app/core/auth/guards/paciente.guard';
 
 export const pessoaRoutes: Route[] = [
     {
@@ -10,6 +11,7 @@ export const pessoaRoutes: Route[] = [
         resolve: {
             PessoasResolver,
         },
+        canActivate: [PacienteGuard],
     },
 
     {
@@ -18,5 +20,6 @@ export const pessoaRoutes: Route[] = [
         resolve: {
             PessoaResolver,
         },
+        canActivate: [PacienteGuard],
     },
 ];

@@ -7,6 +7,7 @@ import {
     AtendimentosResolver,
 } from './atendimento.resolver';
 import { AvaliacaoFormComponent } from './avaliacao-form/avaliacao-form.component';
+import { PacienteGuard } from 'app/core/auth/guards/paciente.guard';
 
 export const atendimentoRoutes: Route[] = [
     {
@@ -15,6 +16,7 @@ export const atendimentoRoutes: Route[] = [
         resolve: {
             AtendimentosResolver,
         },
+        canActivate: [PacienteGuard],
     },
     {
         path: 'paciente/:idPaciente',
@@ -40,5 +42,6 @@ export const atendimentoRoutes: Route[] = [
     {
         path: 'avaliacao/novo/:idAtendimento/:idPaciente',
         component: AvaliacaoFormComponent,
+        canActivate: [PacienteGuard],
     },
 ];
