@@ -24,6 +24,7 @@
                     class="flex items-center gap-2"
                     (click)="cadastrarAtendimento(pacienteId)"
                     matTooltip="Novo Atendimento"
+                    *ngIf="usuario?.tipoUsuario !== 'Paciente'"
                 >
                     <mat-icon
                         svgIcon="heroicons_outline:plus-circle"
@@ -163,6 +164,7 @@
                                 color="primary"
                                 matTooltip="Editar Atendimento"
                                 (click)="editarAtendimento(atendimento.id)"
+                                *ngIf="usuario?.tipoUsuario !== 'Paciente'"
                             >
                                 <mat-icon svgIcon="mat_outline:edit"></mat-icon>
                             </button>
@@ -243,6 +245,7 @@
                         color="primary"
                         matTooltip="Avaliar Atendimento"
                         (click)="cadastrarAvaliacao(atendimento.id)"
+                        *ngIf="usuario?.tipoUsuario !== 'Paciente'"
                     >
                         <mat-icon
                             svgIcon="heroicons_outline:document-text"

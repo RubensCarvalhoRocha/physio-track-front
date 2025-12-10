@@ -11,6 +11,7 @@ import { switchMap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { RelatorioModalComponent } from '../relatorio-modal/relatorio-modal.component';
 import { AnaliseModalComponent } from '../analise-modal/analise-modal.component';
+import { UserService } from 'app/core/user/user.service';
 
 @Component({
     selector: 'app-atendimento-list',
@@ -21,6 +22,7 @@ export class AtendimentoListComponent implements OnInit {
     pacienteId?: number;
     pacienteNome?: string;
     filtroForm!: FormGroup;
+    usuario: any;
 
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
@@ -39,10 +41,15 @@ export class AtendimentoListComponent implements OnInit {
         private _router: Router,
         private _route: ActivatedRoute,
         private _fb: FormBuilder,
-        private _dialog: MatDialog
+        private _dialog: MatDialog,
+        private _userService: UserService
     ) {}
 
     ngOnInit(): void {
+        this._userService.user$.subscribe((user) => {
+            this.usuario = user;
+            console.log('Usuário retornado pelo UserService:', this.usuario);
+        });
         console.log(this.pacienteNome);
         // 🧱 Inicializa formulário de filtro
         this.filtroForm = this._fb.group({
