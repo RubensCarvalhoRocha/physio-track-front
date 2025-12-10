@@ -52,6 +52,7 @@ export class AuthSignUpComponent implements OnInit {
         this.signUpForm = this._formBuilder.group({
             email: ['', [Validators.required, Validators.email]],
             password: ['', Validators.required],
+            isPaciente: [false, Validators.required],
             pessoa: this._formBuilder.group({
                 nome: ['', Validators.required],
                 cpf: ['', Validators.required],
@@ -111,9 +112,6 @@ export class AuthSignUpComponent implements OnInit {
             (response) => {
                 // Re-enable the form
                 this.signUpForm.enable();
-
-                // Reset the form
-                this.signUpNgForm.resetForm();
 
                 // Set the alert
                 this.alert = {
