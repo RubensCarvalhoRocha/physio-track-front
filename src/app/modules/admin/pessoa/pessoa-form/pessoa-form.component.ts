@@ -47,6 +47,7 @@ export class PessoaFormComponent implements OnInit {
                 nome: [this.pessoa?.nome || '', Validators.required],
                 cpf: [this.pessoa?.cpf || ''],
                 telefone: [this.pessoa?.telefone || ''],
+                email: [this.pessoa?.email || '', [Validators.required, Validators.email]],
                 endereco: this.fb.group({
                     rua: [this.pessoa?.endereco?.rua || ''],
                     cep: [this.pessoa?.endereco?.cep || ''],
@@ -115,7 +116,7 @@ export class PessoaFormComponent implements OnInit {
         } else {
             this._pessoaService.cadastrarPessoa(pessoaData).subscribe({
                 next: () => {
-                    notyf.success('Pessoa cadastrada com sucesso!');
+                    notyf.success('Paciente cadastrado com sucesso, senha enviada para o email do paciente!');
                     this._router.navigate(['/pessoa']);
                 },
                 error: () => {
