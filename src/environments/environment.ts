@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    api: 'http://localhost:8080',
+    api: 'https://physio-track-back-c708367fbb8b.herokuapp.com',
 };
